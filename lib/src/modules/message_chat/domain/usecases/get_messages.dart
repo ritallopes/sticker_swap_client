@@ -15,11 +15,11 @@ class GetMessagesImpl implements IGetMessages{
   @override
   Future<List<Message>> call({required int idChat}) async{
     return idChat == 0 ? [
-        MessageSwapStickers(id: 3, idSender: 1, status: StatusMessageConfirm.wait, stickersNeed: [Sticker(id: 0, text: "BRA 2, 11, 20", quantity: 1, idGroup: 1), Sticker(id: 0, text: "FWC 13", quantity: 1, idGroup: 1)] ),
-        MessagePlace(id: 5, idSender: 1, time: "14:30", place: "Leitura, Natal shopping", date: "15h", status: StatusMessageConfirm.wait),
-        MessageSimple(id: 0, message: "Vc tem figurinhas pra trocar?", idSender: 0)
+        MessageSwapStickers(id: 3, idSender: "1", status: StatusMessageConfirm.wait, stickersNeed: [Sticker(id: 0, text: "BRA 2, 11, 20", quantity: 1, idGroup: 1), Sticker(id: 0, text: "FWC 13", quantity: 1, idGroup: 1)] ),
+        MessagePlace(id: 5, idSender: "1", time: "14:30", place: "Leitura, Natal shopping", date: "15h", status: StatusMessageConfirm.wait),
+        MessageSimple(id: 0, message: "Vc tem figurinhas pra trocar?", idSender: "0")
       ] : [
-        MessageSimple(id: 2, message: "Tite não me levou para copa.", idSender: 1),
+        MessageSimple(id: 2, message: "Tite não me levou para copa.", idSender: "1"),
       ];
   }
 

@@ -3,14 +3,22 @@ import 'package:sticker_swap_client/src/modules/login/presenter/login_bloc.dart'
 import 'package:flutter_modular/flutter_modular.dart';
 
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  LoginState createState() => LoginState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class LoginState extends ModularState<Login, LoginBloc> {
+class LoginScreenState extends ModularState<LoginScreen, LoginBloc> {
+
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,16 +74,23 @@ class LoginState extends ModularState<Login, LoginBloc> {
                 ),
             ),
             ),
-            Container(
-                height: 80,
-                padding: const EdgeInsets.all(20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  onPressed: controller.login,
-                  child: const Text('Log In'),
-                )),
+            StreamBuilder<bool>(
+              stream: controller.isLoading,
+              initialData: false,
+              builder: (context, snapshot) {
+                if(snapshot.data!) return const Center(child: CircularProgressIndicator());
+                return Container(
+                    height: 80,
+                    padding: const EdgeInsets.all(20),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: controller.login,
+                      child: const Text('Log In'),
+                    ));
+              }
+            ),
             TextButton(
               onPressed: () {controller.toRegisterScreen();},
               child: Text(

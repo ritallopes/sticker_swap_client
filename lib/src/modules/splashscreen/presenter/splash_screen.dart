@@ -17,7 +17,7 @@ class _SplashScreenState extends ModularState<SplashScreen, SplashScreenBloc> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), controller.verifyAuth);
+    Timer(const Duration(seconds: 1), controller.verifyAuth);
   }
 
 

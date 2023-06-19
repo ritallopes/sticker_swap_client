@@ -9,6 +9,7 @@ import 'package:sticker_swap_client/src/modules/filter/presenter/filter_module.d
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker_group.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/usecases/get_album.dart';
+import 'package:sticker_swap_client/src/modules/sticker/domain/usecases/update_sticker.dart';
 import 'package:sticker_swap_client/src/modules/sticker/presenter/widgets/bottom_sheet_sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/limits_group_utils.dart';
 
@@ -19,6 +20,7 @@ class StickerBloc{
   AlbumManager albumManager = Modular.get<AlbumManager>();
 
   IGetAlbum getAlbumUsecase = Modular.get<IGetAlbum>();
+  IUpdateSticker updateStickerUsecase = Modular.get<IUpdateSticker>();
 
   int firstGroup= LimitsGroupUtils.firstGroup;
   int lastGroup= LimitsGroupUtils.lastGroup;
@@ -35,9 +37,9 @@ class StickerBloc{
 
 
   ///<!Casos de uso>
-  Future<void> getAlbum(user, auth) async{
+  Future<void> getAlbum() async{
     if(albumManager.albumView == null){
-      Album album = await getAlbumUsecase(user: user, auth: auth);
+      Album album = await getAlbumUsecase(user: user);
       albumManager.setBaseAlbum(album);
       _statusStream.sink.add(true);
     }
@@ -66,13 +68,15 @@ class StickerBloc{
 
       if(albumManager.albumView!.collectionStickers.containsKey(i)){
         for(Sticker sticker in (albumManager.albumView!.collectionStickers[i] as List<Sticker>)) {
-          if(sticker.text.contains(searchController.text.toUpperCase()))
+          if(sticker.text.contains(searchController.text.toUpperCase())) {
             sticksGroup.add(sticker);
+          }
         }
       }
 
-      if(sticksGroup.isNotEmpty)
+      if(sticksGroup.isNotEmpty) {
         album.collectionStickers[i] = List.from(sticksGroup);
+      }
     }
 
     albumManager.albumView = album;
@@ -110,12 +114,13 @@ class StickerBloc{
   void addSticker(Sticker sticker){
     sticker.quantity += 1;
 
-    if(sticker.quantity == 1)
+    if(sticker.quantity == 1) {
       albumManager.obtidas++;
-    else
+    } else {
       albumManager.repetidas++;
+    }
 
-    //Enviar para servidor aqui
+    updateStickerUsecase(user: user, sticker: sticker);
     _idModePageStream.sink.add(1);
     _statusStream.sink.add(true);
   }
@@ -123,12 +128,13 @@ class StickerBloc{
   void removeSticker(Sticker sticker){
     sticker.quantity -= 1;
 
-    if(sticker.quantity == 0)
+    if(sticker.quantity == 0) {
       albumManager.obtidas--;
-    else
+    } else {
       albumManager.repetidas--;
+    }
 
-    //Enviar para servidor aqui
+    updateStickerUsecase(user: user, sticker: sticker);
     _idModePageStream.sink.add(1);
     _statusStream.sink.add(true);
   }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sticker_swap_client/src/core/entities/auth.dart';
-import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker_group.dart';
 import 'package:sticker_swap_client/src/modules/sticker/presenter/sticker_bloc.dart';
@@ -24,12 +22,10 @@ class StickerScreen extends StatefulWidget {
 }
 
 class _StickerScreenState extends ModularState<StickerScreen, StickerBloc> {
-  Auth auth = Modular.get<Auth>();
-  User user = Modular.get<User>();
-  
+
   @override
   void initState() {
-    controller.getAlbum(user, auth);
+    controller.getAlbum();
     super.initState();
   }
 

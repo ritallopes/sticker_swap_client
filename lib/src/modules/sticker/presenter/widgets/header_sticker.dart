@@ -47,10 +47,20 @@ class HeaderSticker extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget buildProfileImage() => const CircleAvatar(
+  CircleAvatar buildProfileImage(){
+    ImageProvider? image;
+    if(user.image == null){
+      image = const AssetImage('assets/images/logo.png');
+    }else{
+      image = NetworkImage(user.image!);
+    }
+
+    return CircleAvatar(
       radius: 55,
       backgroundColor: Colors.white,
-      backgroundImage: AssetImage('assets/images/profile_picture.png'),
+      backgroundImage: image,
     );
+  }
+
+}

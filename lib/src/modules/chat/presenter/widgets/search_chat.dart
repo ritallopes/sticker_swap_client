@@ -12,7 +12,7 @@ class SearchChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 30, bottom: 20, right: 30),
+      padding: const EdgeInsets.all(20),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(

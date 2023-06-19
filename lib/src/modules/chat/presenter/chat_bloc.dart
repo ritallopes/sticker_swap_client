@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sticker_swap_client/src/core/alerts/alert_dialog.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/usecases/get_chats.dart';
@@ -42,7 +43,10 @@ class ChatBloc{
       if(result != "-1")
         print(result);
     }catch(e){
-      print(e);
+      alertMensagem(
+        titulo: 'Ops...',
+        descricao: "Não foi possível fazer a leitura"
+      );
     }
   }
 
