@@ -21,7 +21,6 @@ class MessageChatScreen extends StatefulWidget {
 
 class _MessageChatScreenState extends ModularState<MessageChatScreen, MessageChatBloc> {
 
-
   @override
   void initState() {
     controller.getMessages(widget.chat);
@@ -37,59 +36,98 @@ class _MessageChatScreenState extends ModularState<MessageChatScreen, MessageCha
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-              child: StreamBuilder<List<Message>>(
-                stream: controller.getMessagesView,
-                builder: (_, snapshot) {
-                  if(!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _top(),
+            Expanded(
+                child: StreamBuilder<List<Message>>(
+                  stream: controller.getMessagesView,
+                  builder: (_, snapshot) {
+                    if(!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator(),);
+                    }
 
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (_, index) {
-                      if(snapshot.data![index] is MessageSimple) {
-                        return MessageTile(
-                          message: snapshot.data![index],
-                          isMy: controller.isMyMessage(snapshot.data![index]),
-                        );
-                      }
-                      if(snapshot.data![index] is MessageSwapStickers) {
-                        return MessageSwap(
-                          message: snapshot.data![index] as MessageSwapStickers,
-                          isMy: controller.isMyMessage(snapshot.data![index]),
-                          availableSwap: controller.availableSwap, 
-                          chat: widget.chat,                        
-                          );
-                      }
-
-                      if(snapshot.data![index] is MessagePlace) {
-                        return MessageLocalization(
-                            message: snapshot.data![index] as MessagePlace,
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (_, index) {
+                        if(snapshot.data![index] is MessageSimple) {
+                          return MessageTile(
+                            message: snapshot.data![index],
                             isMy: controller.isMyMessage(snapshot.data![index]),
-                            availableLocalization: controller.availableLocalization,
-                        );
-                      }
+                          );
+                        }
+                        if(snapshot.data![index] is MessageSwapStickers) {
+                          return MessageSwap(
+                            message: snapshot.data![index] as MessageSwapStickers,
+                            isMy: controller.isMyMessage(snapshot.data![index]),
+                            availableSwap: controller.availableSwap,
+                            chat: widget.chat,
+                            );
+                        }
 
-                      return const SizedBox(height: 2,);
-                    },
-                  );
+                        if(snapshot.data![index] is MessagePlace) {
+                          return MessageLocalization(
+                              message: snapshot.data![index] as MessagePlace,
+                              isMy: controller.isMyMessage(snapshot.data![index]),
+                              availableLocalization: controller.availableLocalization,
+                          );
+                        }
 
-                }
-              )
+                        return const SizedBox(height: 2,);
+                      },
+                    );
+
+                  }
+                )
+            ),
+            BottomMessageChat(
+              controller: controller.textController,
+              markLocation: controller.markLocation,
+              swapSticker: controller.swapSticker,
+              sendText: controller.sendMessage,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget _top(){
+    return Container(
+      decoration: const BoxDecoration(
+          border:  Border(
+              bottom: BorderSide(color: Color.fromRGBO(117, 122, 163, 0.79)))
+      ),
+
+      child: Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            onPressed: (() => Modular.to.pop()),
           ),
-          BottomMessageChat(
-            controller: controller.textController,
-            markLocation: controller.markLocation,
-            swapSticker: controller.swapSticker,
-            sendText: controller.sendMessage,
-          )
+          const SizedBox(width: 8,),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:  [
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 4),
+                child: Text(widget.chat.name, style: const TextStyle(fontSize: 18)),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text("Visto por último 11 minutos atrás",
+                    style: TextStyle(
+                        fontSize: 12, color: Color.fromRGBO(117, 122, 163, 1))),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
+
 }

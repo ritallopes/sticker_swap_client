@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../chat/domain/entities/chat.dart';
 
@@ -44,77 +43,36 @@ class MessageSwap extends StatelessWidget {
         ),
       );
     }else{
-      return Column (
-          children: [ 
-            Container(child: _top()),
-            Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 10.0, 100.0, 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(15))
-                  ),
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(10.0, 10.0, 100.0, 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(15))
+              ),
 
-                  child: _textSwap(textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, wordSpacing: 1)),
-                ),
-
-                if(message.status == StatusMessageConfirm.wait)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      _buttonReject(),
-                      _buttonAccepted(),
-                    ],
-                  )
-                else
-                  _buttonStatus()
-              ],
+              child: _textSwap(textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, wordSpacing: 1)),
             ),
-          ),
-        ]
+
+            if(message.status == StatusMessageConfirm.wait)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  _buttonReject(),
+                  _buttonAccepted(),
+                ],
+              )
+            else
+              _buttonStatus()
+          ],
+        ),
       );
     }
-  }
-
-  Widget _top(){
-    return Container(
-      decoration: const BoxDecoration(
-         border:  Border(
-          bottom: BorderSide(color: Color.fromRGBO(117, 122, 163, 0.79)))
-        ),
-
-        margin: const EdgeInsets.only(top: 25,bottom: 25),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_rounded),
-            onPressed: (() => Modular.to.pop()),
-          ),
-          const SizedBox(
-            width: 25,
-          ),
-          Column(
-            children:  [
-              Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 4),
-                child: Text(chat.name, style: const TextStyle(fontSize: 18)),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text("Visto por último 11 minutos atrás",
-                    style: TextStyle(
-                        fontSize: 12, color: Color.fromRGBO(117, 122, 163, 1))),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _textSwap({TextStyle? textStyle}){
