@@ -84,9 +84,7 @@ class _ChatScreenState extends ModularState<ChatScreen, ChatBloc> {
                 label: 'QrCode', 
                 child: Icon(Icons.qr_code),
                 labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () async {
-                 Navigator.pushNamed(context, '/qrcode');
-              },
+                onTap: controller.openQrCode,
             ),
           ],
         ),

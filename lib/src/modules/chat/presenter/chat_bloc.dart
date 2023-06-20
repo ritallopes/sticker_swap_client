@@ -28,7 +28,7 @@ class ChatBloc{
     Modular.to.pushNamed("/message_chat", arguments: chat);
   }
 
-  void openQrCode(){}
+  void openQrCode()=> Modular.to.pushNamed('/qrcode');
 
   void openScanQrCode() async{
     try{
@@ -61,6 +61,11 @@ class ChatBloc{
     _chatsStream.sink.add(chatsSearch);
   }
 
+
+  //<! Métodos auxiliares>
+  void _createChat({required User user, required User otherUser}){
+
+  }
 
   void dispose(){
     _chatsStream.close();

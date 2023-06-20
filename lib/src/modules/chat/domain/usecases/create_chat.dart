@@ -5,7 +5,7 @@ abstract class ICreateChat{
   Future<bool> call({required User user, required User otherUser});
 }
 
-class GetChatsImpl implements ICreateChat{
+class CreateChatImpl implements ICreateChat{
 
   final _firebase = FirebaseFirestore.instance;
 
