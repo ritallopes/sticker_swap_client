@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
-import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_simple.dart';
 
 abstract class IGetChats{
