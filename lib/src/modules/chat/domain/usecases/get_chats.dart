@@ -1,31 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message.dart';
-
+import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_simple.dart';
 
 abstract class IGetChats{
-
   Future<List<Chat>> call({required String idUser});
-
 }
 
 class GetChatsImpl implements IGetChats{
 
+  final _firebase = FirebaseFirestore.instance;
+
   @override
   Future<List<Chat>> call({required String idUser}) async{
-    return [
-      Chat(
-          id: 0,
-          name: "Vinimalvadeza Jr.",
-          image: "https://i.pinimg.com/736x/71/57/6d/71576dfdc502b33c906783dc35e43de3.jpg",
-          lastMessage: Message(id: 0, message: "Vc tem figurinhas pra trocar?", idSender: "0", type: 0)
-      ),
-      Chat(
-          id: 1,
-          name: "El tanque",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVmSZbr3E4I5pQVoMny7KCi32RoQ2njQVxsA&usqp=CAU",
-          lastMessage: Message(id: 2, message: "Tite não me levou para copa.", idSender: "0", type: 0)
-      )
-    ];
+    try{
+      List<Chat> chats = <Chat>[];
+      final result = await _firebase.collection("chat")
+          .where("users", arrayContains: idUser)
+          .get();
+
+      for(final doc in result.docs){
+        late Map<String, dynamic> map;
+
+        if(doc.data()["u1"]["id"]==idUser){
+          map = doc.data()["u2"];
+        }else{
+          map = doc.data()["u1"];
+        }
+
+        chats.add(Chat(
+            id: doc.id,
+            name: map["name"],
+            image: map["image"],
+            lastMessage: MessageSimple(id: 0, idSender: "s", message: "Nova mensagem"))
+        );
+      }
+
+      return chats;
+    }catch(e){
+      rethrow;
+    }
   }
 
 }
