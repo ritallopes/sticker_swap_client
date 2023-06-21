@@ -3,7 +3,7 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/mes
 class Chat{
   String id;
   String name;
-  String image;
+  String? image;
   Message lastMessage;
 
   Chat({

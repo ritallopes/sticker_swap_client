@@ -14,6 +14,11 @@ class SearchUserChatScreen extends StatefulWidget {
 class _SearchUserChatScreenState extends ModularState<SearchUserChatScreen, SearchUserChatBloc> {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -73,7 +78,9 @@ class _SearchUserChatScreenState extends ModularState<SearchUserChatScreen, Sear
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: NetworkImage(user.image!),
+                    backgroundImage: user.image == null
+                        ? null
+                        : NetworkImage(user.image!),
                     maxRadius: 30,
                   ),
                   const SizedBox(width: 16,),
@@ -93,6 +100,7 @@ class _SearchUserChatScreenState extends ModularState<SearchUserChatScreen, Sear
                       ),
                     ),
                   ),
+                  const Icon(Icons.add)
                 ],
               ),
             )

@@ -3,7 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/usecases/create_chat.dart';
-import 'package:sticker_swap_client/src/modules/chat/domain/usecases/get_users_by_username.dart';
+import 'package:sticker_swap_client/src/modules/search_user_chat/domain/usecases/get_users_by_username.dart';
 
 class SearchUserChatBloc{
   final _user = Modular.get<User>();
