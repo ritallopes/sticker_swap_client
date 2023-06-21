@@ -96,7 +96,8 @@ class ChatBloc{
 
   void openQrCode()=> Modular.to.pushNamed('/qrcode');
 
-  void searchUser()=> Modular.to.pushNamed('/search_user');
+  void searchUser()=> Modular.to.pushNamed('/search_user', arguments: chats)
+      .whenComplete(() => _chatsStream.sink.add(chats));
 
 
   void dispose(){

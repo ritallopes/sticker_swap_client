@@ -15,7 +15,7 @@ class SearchUserChatModule extends Module{
 
   @override
   List<ModularRoute> get routes =>[
-    ChildRoute('/', child: (context, args) => SearchUserChatScreen()),
+    ChildRoute('/', child: (context, args) => SearchUserChatScreen(chats: args.data,)),
   ];
 
 }

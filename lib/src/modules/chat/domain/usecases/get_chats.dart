@@ -31,7 +31,7 @@ class GetChatsImpl implements IGetChats{
             id: doc.id,
             name: map["name"],
             image: map["image"],
-            lastMessage: MessageSimple(id: 0, idSender: "s", message: map["username"]))
+            username: map["username"])
         );
       }
 

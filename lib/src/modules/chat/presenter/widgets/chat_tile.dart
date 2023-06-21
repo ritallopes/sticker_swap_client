@@ -40,7 +40,7 @@ class ChatTile extends StatelessWidget {
                           Text(chat.name, style: TextStyle(fontSize: 16),),
                           const SizedBox(height: 6,),
                           Text(
-                            chat.lastMessage.message,
+                            chat.username,
                             style: TextStyle(fontSize: 13,color: Colors.grey.shade600, fontWeight: FontWeight.normal),
                           ),
                         ],

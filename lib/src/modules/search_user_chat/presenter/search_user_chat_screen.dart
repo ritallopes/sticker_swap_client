@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
+import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/chat/presenter/widgets/search_chat.dart';
 import 'package:sticker_swap_client/src/modules/search_user_chat/presenter/search_user_chat_bloc.dart';
 
 class SearchUserChatScreen extends StatefulWidget {
-  const SearchUserChatScreen({Key? key}) : super(key: key);
+
+  final List<Chat> chats;
+  const SearchUserChatScreen({Key? key, required this.chats}) : super(key: key);
 
   @override
   State<SearchUserChatScreen> createState() => _SearchUserChatScreenState();
@@ -16,6 +19,7 @@ class _SearchUserChatScreenState extends ModularState<SearchUserChatScreen, Sear
   @override
   void initState() {
     super.initState();
+    controller.initScreen(widget.chats);
   }
 
   @override
