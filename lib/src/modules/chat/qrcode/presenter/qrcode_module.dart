@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/modules/chat/qrcode/presenter/qrcode_bloc.dart';
 import 'package:sticker_swap_client/src/modules/chat/qrcode/presenter/qrcode_screen.dart';

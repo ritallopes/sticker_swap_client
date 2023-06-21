@@ -33,7 +33,8 @@ class _ChatScreenState extends ModularState<ChatScreen, ChatBloc> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: const Text("Trocar figurinhas"),
+          backgroundColor: Colors.transparent,
+          title: const Text("Trocar figurinhas", style: TextStyle(color: Colors.black),),
           centerTitle: true,
         ),
 
@@ -84,9 +85,13 @@ class _ChatScreenState extends ModularState<ChatScreen, ChatBloc> {
                 label: 'QrCode', 
                 child: Icon(Icons.qr_code),
                 labelStyle: TextStyle(fontSize: 18.0),
-                onTap: () async {
-                 Navigator.pushNamed(context, '/qrcode');
-              },
+                onTap: controller.openQrCode,
+            ),
+            SpeedDialChild(
+              label: 'Buscar',
+              child: const Icon(Icons.search),
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: controller.searchUser,
             ),
           ],
         ),

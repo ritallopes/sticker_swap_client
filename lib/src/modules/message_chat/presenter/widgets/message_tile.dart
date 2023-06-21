@@ -12,7 +12,7 @@ class MessageTile extends StatelessWidget {
       return Align(
         alignment: Alignment.topRight,
         child: Container(
-          margin: const EdgeInsets.fromLTRB(100.0, 10.0, 10.0, 4.0),
+          margin: const EdgeInsets.fromLTRB(40.0, 10.0, 10.0, 4.0),
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -33,7 +33,7 @@ class MessageTile extends StatelessWidget {
       return Align(
         alignment: Alignment.topLeft,
         child: Container(
-          margin: const EdgeInsets.fromLTRB(2.0, 2.0, 14.0, 2.0),
+          margin: const EdgeInsets.fromLTRB(10.0, 2.0, 14.0, 2.0),
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,

@@ -28,15 +28,19 @@ class _SettingsScreenState extends ModularState<SettingsScreen, SettingsBloc> {
     return Expanded(
         child: Scaffold(
             appBar: AppBar(
-              title: const Text('Configurações'),
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              title: const Text('Configurações', style: TextStyle(color: Colors.black),),
+              centerTitle: true,
             ),
+
             body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 10),
                     child: buildProfileImage(),
                   ),
                   Container(

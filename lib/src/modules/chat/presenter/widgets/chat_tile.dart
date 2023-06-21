@@ -18,14 +18,16 @@ class ChatTile extends StatelessWidget {
       onTap: ()=> onTap(chat),
 
       child: Ink(
-        padding: EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Row(
           children: <Widget>[
             Expanded(
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: NetworkImage(chat.image),
+                    backgroundImage: chat.image == null
+                        ? null
+                        : NetworkImage(chat.image!),
                     maxRadius: 30,
                   ),
                   const SizedBox(width: 16,),
@@ -38,7 +40,7 @@ class ChatTile extends StatelessWidget {
                           Text(chat.name, style: TextStyle(fontSize: 16),),
                           const SizedBox(height: 6,),
                           Text(
-                            chat.lastMessage.message,
+                            chat.username,
                             style: TextStyle(fontSize: 13,color: Colors.grey.shade600, fontWeight: FontWeight.normal),
                           ),
                         ],
