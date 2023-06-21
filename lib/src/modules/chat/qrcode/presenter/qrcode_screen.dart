@@ -34,7 +34,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                   ),
                 ),
             ),
-            QrImage(
+            QrImageView(
               data: "${Modular.get<User>().id}",
               version: QrVersions.auto,
               size: 200.0,
