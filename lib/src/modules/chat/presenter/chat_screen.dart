@@ -91,7 +91,7 @@ class _ChatScreenState extends ModularState<ChatScreen, ChatBloc> {
               label: 'Buscar',
               child: const Icon(Icons.search),
               labelStyle: TextStyle(fontSize: 18.0),
-              onTap: controller.openQrCode,
+              onTap: controller.searchUser,
             ),
           ],
         ),

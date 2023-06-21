@@ -8,6 +8,7 @@ import 'package:sticker_swap_client/src/modules/home/presenter/home_module.dart'
 import 'package:sticker_swap_client/src/modules/login/domain/usecases/get_user.dart';
 import 'package:sticker_swap_client/src/modules/login/presenter/login_module.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/presenter/message_chat_module.dart';
+import 'package:sticker_swap_client/src/modules/search_user_chat/presenter/search_user_chat_module.dart';
 import 'package:sticker_swap_client/src/modules/splashscreen/presenter/splash_screen.dart';
 import 'package:sticker_swap_client/src/modules/splashscreen/presenter/splash_screen_bloc.dart';
 
@@ -51,6 +52,11 @@ class AppModule extends Module{
      ModuleRoute(
         '/qrcode',
         module: QRCodeModule(),
+        transition: TransitionType.fadeIn
+    ),
+    ModuleRoute(
+        '/search_user',
+        module: SearchUserChatModule(),
         transition: TransitionType.fadeIn
     ),
   ];

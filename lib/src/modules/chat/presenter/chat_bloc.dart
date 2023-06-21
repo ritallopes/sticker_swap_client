@@ -7,7 +7,6 @@ import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/usecases/create_chat.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/usecases/get_chats.dart';
-import 'package:sticker_swap_client/src/modules/chat/domain/usecases/get_users_by_username.dart';
 import 'package:sticker_swap_client/src/modules/login/domain/usecases/get_user.dart';
 
 class ChatBloc{
@@ -16,7 +15,6 @@ class ChatBloc{
   final _getUserUseCase = Modular.get<IGetUser>();
   final _getChatsUseCase = Modular.get<IGetChats>();
   final _createChatUseCase = Modular.get<ICreateChat>();
-  final _getUsersByUsernameUseCase = Modular.get<IGetUsersByUsername>();
 
   late List<Chat> chats;
   TextEditingController searchController = TextEditingController();
@@ -33,11 +31,6 @@ class ChatBloc{
       _chatsStream.sink.addError(e);
     }
   }
-
-  void openChat(Chat chat)=>
-      Modular.to.pushNamed("/message_chat", arguments: chat);
-
-  void openQrCode()=> Modular.to.pushNamed('/qrcode');
 
   void openScanQrCode() async{
     try{
@@ -95,6 +88,16 @@ class ChatBloc{
       rethrow;
     }
   }
+
+
+  //<! Funções de navegação>
+  void openChat(Chat chat)=>
+      Modular.to.pushNamed("/message_chat", arguments: chat);
+
+  void openQrCode()=> Modular.to.pushNamed('/qrcode');
+
+  void searchUser()=> Modular.to.pushNamed('/search_user');
+
 
   void dispose(){
     _chatsStream.close();
