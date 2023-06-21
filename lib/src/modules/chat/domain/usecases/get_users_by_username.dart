@@ -14,7 +14,8 @@ class GetUsersByUsernameImpl implements IGetUsersByUsername{
     try{
       List<User> users = <User>[];
       final result = await _firebase.collection("user")
-          .where("username", whereIn: [username])
+          .where("username", isGreaterThanOrEqualTo: username)
+          .where("username", isLessThanOrEqualTo: '${username}z')
           .get();
 
       for(final doc in result.docs){
@@ -31,6 +32,7 @@ class GetUsersByUsernameImpl implements IGetUsersByUsername{
 
       return users;
     }catch(e){
+      print(e);
       rethrow;
     }
   }

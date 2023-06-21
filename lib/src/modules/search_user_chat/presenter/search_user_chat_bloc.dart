@@ -10,12 +10,24 @@ class SearchUserChatBloc{
   final _createChatUseCase = Modular.get<ICreateChat>();
   final _getUsersByUsernameUseCase = Modular.get<IGetUsersByUsername>();
 
+  List<User> users = <User>[];
+
   TextEditingController searchController = TextEditingController();
 
-  final BehaviorSubject<List<User>> _usersStream = BehaviorSubject();
-  Stream<List<User>> get getUsersView => _usersStream.stream;
+  final BehaviorSubject<bool> _loadingStream = BehaviorSubject();
+  Stream<bool> get isLoading => _loadingStream.stream;
 
-  void onSearch(){}
+  void onSearch() async{
+    try{
+      _loadingStream.sink.add(true);
+      final text = searchController.text;
+
+      users = await _getUsersByUsernameUseCase(text);
+      _loadingStream.sink.add(false);
+    }catch(e){
+      _loadingStream.sink.addError(e);
+    }
+  }
 
   Future<bool> _createChat({required User user, required User otherUser}) async{
     try{
@@ -27,7 +39,7 @@ class SearchUserChatBloc{
 
 
   void dispose(){
-    _usersStream.close();
+    _loadingStream.close();
     searchController.dispose();
   }
 }

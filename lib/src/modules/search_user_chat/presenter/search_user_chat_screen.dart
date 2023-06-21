@@ -21,41 +21,41 @@ class _SearchUserChatScreenState extends ModularState<SearchUserChatScreen, Sear
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: const Text("Buscar colecionador", style: TextStyle(color: Colors.black),),
-          centerTitle: true,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: const Text("Buscar colecionador", style: TextStyle(color: Colors.black),),
+        centerTitle: true,
+      ),
 
-        body: Column(
-          children: [
-            SearchChat(
-                onSearch: controller.onSearch,
-                controller: controller.searchController
-            ),
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SearchChat(
+              onSearch: controller.onSearch,
+              controller: controller.searchController
+          ),
 
-            StreamBuilder<List<User>>(
-                stream: controller.getUsersView,
-                builder: (_, snapshot){
-                  if (snapshot.hasData){
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) =>
-                            _userTile(snapshot.data![index]),
-                      ),
-                    );
-                  }else{
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
+          StreamBuilder<bool>(
+              initialData: false,
+              stream: controller.isLoading,
+              builder: (_, snapshot){
+                if (snapshot.data!){
+                  return const Center(child: CircularProgressIndicator(),);
                 }
-            ),
-          ],
-        ),
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: controller.users.length,
+                    itemBuilder: (context, index) =>
+                        _userTile(controller.users[index]),
+                  ),
+                );
+              }
+          ),
+        ],
       ),
     );
   }
