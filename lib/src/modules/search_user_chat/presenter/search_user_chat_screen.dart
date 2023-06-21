@@ -72,7 +72,7 @@ class _SearchUserChatScreenState extends ModularState<SearchUserChatScreen, Sear
 
   Widget _userTile(User user){
     return InkWell(
-      onTap: (){},
+      onTap: ()=> controller.createChat(user),
 
       child: Ink(
         padding: const EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 10),

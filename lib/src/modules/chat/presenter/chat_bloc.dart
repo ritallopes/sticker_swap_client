@@ -67,10 +67,12 @@ class ChatBloc{
   Future<void> _getUserByIDAndCreateChat({required String idUser}) async{
     try{
       final otherUser = await _getUserUseCase(idUser);
-      bool sucesso = await _createChat(user: _user, otherUser: otherUser);
+      Chat? newChat = await _createChatUseCase(user: _user, otherUser: otherUser);
 
-      if(sucesso) {
-        getChats();
+      if(newChat != null) {
+        chats.insert(0, newChat);
+        _chatsStream.sink.add(chats);
+
         alertMensagem(
             titulo: "Chat criado",
             descricao: "O chat foi adicionado a sua lista.");
@@ -78,14 +80,6 @@ class ChatBloc{
 
     }catch(e){
       alertMensagem(titulo: "Ops...", descricao: "Não foi possível criar o chat.");
-    }
-  }
-
-  Future<bool> _createChat({required User user, required User otherUser}) async{
-    try{
-      return await _createChatUseCase(user: user, otherUser: otherUser);
-    }catch(e){
-      rethrow;
     }
   }
 

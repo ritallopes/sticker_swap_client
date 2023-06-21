@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
+import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 
 abstract class ICreateChat{
-  Future<bool> call({required User user, required User otherUser});
+  Future<Chat?> call({required User user, required User otherUser});
 }
 
 class CreateChatImpl implements ICreateChat{
@@ -10,8 +11,10 @@ class CreateChatImpl implements ICreateChat{
   final _firebase = FirebaseFirestore.instance;
 
   @override
-  Future<bool> call({required User user, required User otherUser}) async{
+  Future<Chat?> call({required User user, required User otherUser}) async{
     try{
+      late Chat newChat;
+
       await _firebase.collection("chat").add({
         "users" : [user.id, otherUser.id],
         "u1": {
@@ -28,11 +31,19 @@ class CreateChatImpl implements ICreateChat{
           "email": otherUser.email,
           "username": otherUser.username,
         }
+      }).then((document){
+        newChat = Chat(
+            id: document.id,
+            name: otherUser.name!,
+            image: otherUser.image,
+            username: otherUser.username!,
+        );
+        return document;
       });
 
-      return true;
+      return newChat;
     }catch(e){
-      return false;
+      return null;
     }
   }
 

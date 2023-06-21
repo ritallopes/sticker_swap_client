@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sticker_swap_client/src/core/alerts/alert_dialog.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/usecases/create_chat.dart';
@@ -42,15 +43,26 @@ class SearchUserChatBloc{
     }
   }
 
-  Future<bool> _createChat({required User user, required User otherUser}) async{
+  Future<void> createChat(User otherUser) async{
     try{
-      return await _createChatUseCase(user: user, otherUser: otherUser);
+      _loadingStream.sink.add(true);
+      Chat? newChat = await _createChatUseCase(user: _user, otherUser: otherUser);
+
+      if(newChat != null) {
+        _chats.insert(0, newChat);
+        users.remove(otherUser);
+        alertMensagem(
+            titulo: "Chat criado",
+            descricao: "O chat foi adicionado a sua lista.");
+      }
+
     }catch(e){
-      rethrow;
+      alertMensagem(titulo: "Ops...", descricao: "Não foi possível criar o chat.");
     }
+    _loadingStream.sink.add(false);
   }
 
-
+  
   void dispose(){
     _loadingStream.close();
     searchController.dispose();
