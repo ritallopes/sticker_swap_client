@@ -54,7 +54,7 @@ class MessageChatBloc{
   void sendMessage(){
     if(textController.text.isNotEmpty){
       messages.add(
-        MessageSimple(id: 1, message: textController.text, idSender: _user.id!)
+        MessageSimple(message: textController.text, idSender: _user.id!)
       );
       textController.clear();
       _messagesStream.sink.add(messages);

@@ -7,7 +7,7 @@ class MessageSwapStickers extends Message{
   List<Sticker> stickersNeed;
 
   MessageSwapStickers({
-    required super.id,
+    super.id,
     required super.idSender,
     required this.stickersNeed,
     required this.status,

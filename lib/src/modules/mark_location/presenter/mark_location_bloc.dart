@@ -19,7 +19,6 @@ class MarkLocationBloc{
         place: placeController.text,
         date: dateController.text,
         status: StatusMessageConfirm.wait,
-        id: 1,
         idSender: Modular.get<User>().id!
     );
     markLocation(message);
