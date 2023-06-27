@@ -28,7 +28,10 @@ class MessageChatBloc{
 
   void getMessages(Chat chat) async{
     idChat = chat.id;
-    messages = await _getMessagesUseCase(idChat: idChat);
+    messages = await _getMessagesUseCase(
+        idChat: idChat,
+        lastID: ""
+    );
     _messagesStream.sink.add(messages);
   }
 

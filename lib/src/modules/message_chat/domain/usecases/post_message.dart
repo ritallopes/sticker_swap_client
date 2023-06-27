@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_place.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
-import 'package:sticker_swap_client/src/modules/message_chat/presenter/widgets/message_swap.dart';
 
 abstract class IPostMessage{
   Future<bool> call({
