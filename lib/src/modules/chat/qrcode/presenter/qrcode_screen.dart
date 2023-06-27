@@ -24,15 +24,15 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
           children: <Widget>[
             const Padding(
               padding: EdgeInsets.fromLTRB(30, 20, 30, 60),
-                child: Text(
-                  textAlign: TextAlign.center,
-                  'Leia o QR Code para iniciar o chat com este usuário.',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                  ),
+              child: Text(
+                textAlign: TextAlign.center,
+                'Leia o QR Code para iniciar o chat com este usuário.',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
                 ),
+              ),
             ),
             QrImageView(
               data: "${Modular.get<User>().id}",

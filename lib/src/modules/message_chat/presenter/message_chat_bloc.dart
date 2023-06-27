@@ -12,7 +12,7 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/mes
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/get_messages.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
 
-class MessageChatBloc{
+class MessageChatBloc {
   final User _user = Modular.get<User>();
   final IGetMessages _getMessagesUseCase = Modular.get<IGetMessages>();
 
@@ -22,77 +22,69 @@ class MessageChatBloc{
   final BehaviorSubject<List<Message>> _messagesStream = BehaviorSubject();
   Stream<List<Message>> get getMessagesView => _messagesStream.stream;
 
-
-  void getMessages(Chat chat) async{
+  void getMessages(Chat chat) async {
     messages = await _getMessagesUseCase.call(idChat: chat.id);
     _messagesStream.sink.add(messages);
   }
 
-  bool isMyMessage(Message message)=> message.idSender == _user.id;
+  bool isMyMessage(Message message) => message.idSender == _user.id;
 
-
-  void availableLocalization({
-    required MessagePlace messagePlace,
-    required int newStatus
-  }){
-    if(messagePlace.status == StatusMessageConfirm.wait){
+  void availableLocalization(
+      {required MessagePlace messagePlace, required int newStatus}) {
+    if (messagePlace.status == StatusMessageConfirm.wait) {
       messagePlace.status = newStatus;
       _messagesStream.sink.add(messages);
     }
   }
 
-  void availableSwap({
-    required MessageSwapStickers message,
-    required int newStatus
-  }){
-    if(message.status == StatusMessageConfirm.wait){
+  void availableSwap(
+      {required MessageSwapStickers message, required int newStatus}) {
+    if (message.status == StatusMessageConfirm.wait) {
       message.status = newStatus;
       _messagesStream.sink.add(messages);
     }
   }
 
-  void sendMessage(){
-    if(textController.text.isNotEmpty){
-      messages.add(
-        MessageSimple(id: 1, message: textController.text, idSender: _user.id!)
-      );
+  void sendMessage() {
+    if (textController.text.isNotEmpty) {
+      messages.add(MessageSimple(
+          id: 1, message: textController.text, idSender: _user.id!));
       textController.clear();
       _messagesStream.sink.add(messages);
     }
   }
 
-  void markLocation() async{
+  void markLocation() async {
     await showModalBottomSheet<dynamic>(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
-            topLeft:  Radius.circular(12.0),
-            topRight:  Radius.circular(12.0)
-        )),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0))),
         backgroundColor: Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => MarkLocationModule(markLocation: updateMarkLocation,)
-    );
+        builder: (_) => MarkLocationModule(
+              markLocation: updateMarkLocation,
+            ));
   }
 
-  void swapSticker() async{
+  void swapSticker() async {
     await showModalBottomSheet<dynamic>(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
-            topLeft:  Radius.circular(12.0),
-            topRight:  Radius.circular(12.0)
-        )),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0))),
         backgroundColor: Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => CreateSwapModule()
-    );
+        builder: (_) => CreateSwapModule());
   }
 
-  void updateMarkLocation(MessagePlace message){
+  void updateMarkLocation(MessagePlace message) {
     messages.add(message);
     _messagesStream.add(messages);
   }
 
-  void dispose(){
+  void dispose() {
     textController.dispose();
     _messagesStream.close();
   }
-  
 }
