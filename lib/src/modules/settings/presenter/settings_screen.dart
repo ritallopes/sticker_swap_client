@@ -94,6 +94,7 @@ class _SettingsScreenState extends ModularState<SettingsScreen, SettingsBloc> {
                         ),
                         labelText: 'Username',
                       ),
+                      onEditingComplete: controller.editUsername,
                     ),
                   ),
 
@@ -165,6 +166,4 @@ class _SettingsScreenState extends ModularState<SettingsScreen, SettingsBloc> {
       backgroundImage: image,
     );
   }
-
-
 }
