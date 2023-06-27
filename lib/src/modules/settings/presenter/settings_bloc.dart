@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
+import 'package:sticker_swap_client/src/core/alerts/alert_dialog.dart';
 import 'package:sticker_swap_client/src/modules/settings/domain/usecases/update_username.dart';
 
 class SettingsBloc{
 
-  final user= Modular.get<User>();
+  final user = Modular.get<User>();
   final updateUsernameUseCase = Modular.get<IUpdateUsername>();
 
   TextEditingController name = TextEditingController();
@@ -23,6 +24,10 @@ class SettingsBloc{
     final editedUsername = username.text;
     
     if (await updateUsernameUseCase(user.id!, editedUsername)){
+      user.username = editedUsername;
+      final title = "Atualização de perfil";
+      final description = "username atualizado com sucesso.";
+      alertMensagem(titulo: title, descricao: description);
       print(">>> Username successfully updated!");
     } else { 
       print(">>> [Error] it was not possible to update the username!");
