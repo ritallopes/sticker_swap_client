@@ -86,11 +86,11 @@ class ChatBloc{
 
   //<! Funções de navegação>
   void openChat(Chat chat)=>
-      Modular.to.pushNamed("/message_chat", arguments: chat);
+      Modular.to.pushNamed("/message_chat/", arguments: chat);
 
-  void openQrCode()=> Modular.to.pushNamed('/qrcode');
+  void openQrCode()=> Modular.to.pushNamed('/qrcode/');
 
-  void searchUser()=> Modular.to.pushNamed('/search_user', arguments: chats)
+  void searchUser()=> Modular.to.pushNamed('/search_user/', arguments: chats)
       .whenComplete(() => _chatsStream.sink.add(chats));
 
 
