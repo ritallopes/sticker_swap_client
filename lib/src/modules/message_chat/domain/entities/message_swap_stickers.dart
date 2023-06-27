@@ -5,14 +5,15 @@ class MessageSwapStickers extends Message{
 
   int status;
   List<Sticker> stickersNeed;
+  List<Sticker> stickersSender;
 
   MessageSwapStickers({
     super.id,
     required super.idSender,
     required this.stickersNeed,
+    required this.stickersSender,
     required this.status,
-
-  super.type = 1,
+    super.type = 1,
     super.message = "Sujestão de troca",
   });
 
