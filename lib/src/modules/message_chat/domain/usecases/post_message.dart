@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message.dart';
+import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_place.dart';
 
 abstract class IPostMessage{
   Future<bool> call({
@@ -56,8 +57,16 @@ class PostMessageImpl implements IPostMessage{
   }
 
   Map<String, dynamic> _mapPlaceMessage(Message message){
+    MessagePlace messagePlace = message as MessagePlace;
     return {
-
+      "id": messagePlace.id,
+      "type": 2,
+      "message": messagePlace.message,
+      "idSender": messagePlace.idSender,
+      "date": messagePlace.date,
+      "place": messagePlace.place,
+      "status": messagePlace.status,
+      "time": messagePlace.time
     };
   }
 

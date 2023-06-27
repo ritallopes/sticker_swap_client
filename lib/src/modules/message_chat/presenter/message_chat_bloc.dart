@@ -78,7 +78,7 @@ class MessageChatBloc{
             topLeft:  Radius.circular(12.0),
             topRight:  Radius.circular(12.0)
         )),
-        backgroundColor: Color(0xC7CACBD6),
+        backgroundColor: const Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
         builder: (_) => MarkLocationModule(markLocation: updateMarkLocation,)
     );
@@ -96,9 +96,13 @@ class MessageChatBloc{
     );
   }
 
-  void updateMarkLocation(MessagePlace message){
-    messages.add(message);
-    _messagesStream.add(messages);
+  Future<void> updateMarkLocation(MessagePlace message) async{
+    final sucesso = await _postMessageUseCase(message: message, idChat: idChat);
+
+    if(sucesso){
+      messages.add(message);
+      _messagesStream.add(messages);
+    }
   }
 
   void dispose(){
