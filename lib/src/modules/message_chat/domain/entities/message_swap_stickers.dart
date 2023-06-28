@@ -1,18 +1,19 @@
+import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message.dart';
-import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 
 class MessageSwapStickers extends Message{
 
   int status;
-  List<Sticker> stickersNeed;
+  Album stickersNeed;
+  Album stickersSender;
 
   MessageSwapStickers({
-    required super.id,
+    super.id,
     required super.idSender,
     required this.stickersNeed,
+    required this.stickersSender,
     required this.status,
-
-  super.type = 1,
+    super.type = 1,
     super.message = "Sujestão de troca",
   });
 

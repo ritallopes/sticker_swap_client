@@ -6,8 +6,8 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/mes
 
 class MarkLocationModule extends WidgetModule{
 
-  final Function(MessagePlace) markLocation;
-  MarkLocationModule({required this.markLocation});
+  final Future<void> Function(MessagePlace) markLocation;
+  MarkLocationModule({super.key, required this.markLocation});
 
   @override
   List<Bind> get binds => [
