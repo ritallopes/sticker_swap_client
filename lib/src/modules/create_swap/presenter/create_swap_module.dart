@@ -6,10 +6,9 @@ import 'package:sticker_swap_client/src/modules/create_swap/external/datasources
 import 'package:sticker_swap_client/src/modules/create_swap/infra/datasources/interface_get_reference_swap_datasource.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/infra/repositories/get_reference_swap_repository.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_bloc.dart';
-import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_screen.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_start_screen.dart';
 
-class CreateSwapModule extends WidgetModule{
-
+class CreateSwapModule extends WidgetModule {
   @override
   List<Bind<Object>> get binds => [
     Bind<CreateSwapBloc>((i)=> CreateSwapBloc()),
@@ -19,7 +18,7 @@ class CreateSwapModule extends WidgetModule{
     Bind<IGetReferenceSwap>((i)=> GetReferenceSwap(i.get<IGetReferenceSwapRepository>())),
   ];
 
-  @override
-  Widget get view => CreateSwapScreen();
 
+  @override
+  Widget get view => CreateSwapStartScreen();
 }

@@ -37,24 +37,19 @@ class MessageChatBloc{
     _messagesStream.sink.add(messages);
   }
 
-  bool isMyMessage(Message message)=> message.idSender == _user.id;
+  bool isMyMessage(Message message) => message.idSender == _user.id;
 
-
-  void availableLocalization({
-    required MessagePlace messagePlace,
-    required int newStatus
-  }){
-    if(messagePlace.status == StatusMessageConfirm.wait){
+  void availableLocalization(
+      {required MessagePlace messagePlace, required int newStatus}) {
+    if (messagePlace.status == StatusMessageConfirm.wait) {
       messagePlace.status = newStatus;
       _messagesStream.sink.add(messages);
     }
   }
 
-  void availableSwap({
-    required MessageSwapStickers message,
-    required int newStatus
-  }){
-    if(message.status == StatusMessageConfirm.wait){
+  void availableSwap(
+      {required MessageSwapStickers message, required int newStatus}) {
+    if (message.status == StatusMessageConfirm.wait) {
       message.status = newStatus;
       _messagesStream.sink.add(messages);
     }
@@ -77,7 +72,7 @@ class MessageChatBloc{
     }
   }
 
-  void markLocation() async{
+  void markLocation() async {
     await showModalBottomSheet<dynamic>(
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
             topLeft:  Radius.circular(12.0),
@@ -85,20 +80,20 @@ class MessageChatBloc{
         )),
         backgroundColor: const Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => MarkLocationModule(markLocation: updateMarkLocation,)
-    );
+        builder: (_) => MarkLocationModule(
+              markLocation: updateMarkLocation,
+            ));
   }
 
-  void swapSticker() async{
+  void swapSticker() async {
     await showModalBottomSheet<dynamic>(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
-            topLeft:  Radius.circular(12.0),
-            topRight:  Radius.circular(12.0)
-        )),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0))),
         backgroundColor: Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => CreateSwapModule()
-    );
+        builder: (_) => CreateSwapModule());
   }
 
   Future<void> updateMarkLocation(MessagePlace message) async{
@@ -110,9 +105,8 @@ class MessageChatBloc{
     }
   }
 
-  void dispose(){
+  void dispose() {
     textController.dispose();
     _messagesStream.close();
   }
-  
 }
