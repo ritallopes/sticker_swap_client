@@ -11,6 +11,7 @@ import 'package:sticker_swap_client/src/modules/message_chat/presenter/message_c
 import 'package:sticker_swap_client/src/modules/search_user_chat/presenter/search_user_chat_module.dart';
 import 'package:sticker_swap_client/src/modules/splashscreen/presenter/splash_screen.dart';
 import 'package:sticker_swap_client/src/modules/splashscreen/presenter/splash_screen_bloc.dart';
+import 'package:sticker_swap_client/src/modules/sticker/domain/usecases/get_album.dart';
 
 import 'modules/register/presenter/register_module.dart';
 
@@ -24,6 +25,7 @@ class AppModule extends Module{
 
     Bind<SplashScreenBloc>((i) => SplashScreenBloc()),
     Bind<IGetUser>((i) => GetUserImpl()),
+    Bind<IGetAlbum>((i)=> GetAlbumImpl()),
   ];
 
   @override

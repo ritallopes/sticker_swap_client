@@ -39,7 +39,7 @@ class StickerBloc{
   ///<!Casos de uso>
   Future<void> getAlbum() async{
     if(albumManager.albumView == null){
-      Album album = await getAlbumUsecase(user: user);
+      Album album = await getAlbumUsecase(idUser: user.id!);
       albumManager.setBaseAlbum(album);
       _statusStream.sink.add(true);
     }
