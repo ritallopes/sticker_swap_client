@@ -61,24 +61,8 @@ class PostMessageImpl implements IPostMessage{
       "message": messageSwap.message,
       "idSender": messageSwap.idSender,
       "status": messageSwap.status,
-      "stickerNeed": [
-        for(final sticker in messageSwap.stickersNeed)
-          {
-            'id': sticker.id,
-            'text': sticker.text,
-            'idGroup': sticker.idGroup,
-            'quantity': sticker.quantity,
-          },
-      ],
-      "stickerSender": [
-        for(final sticker in messageSwap.stickersSender)
-          {
-            'id': sticker.id,
-            'text': sticker.text,
-            'idGroup': sticker.idGroup,
-            'quantity': sticker.quantity,
-          },
-      ]
+      "stickerNeed": messageSwap.stickersNeed.toMap(),
+      "stickerSender": messageSwap.stickersSender.toMap(),
     };
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_module.dart';
@@ -11,6 +12,7 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/mes
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/get_messages.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/post_message.dart';
+import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
 
 class MessageChatBloc{
@@ -88,6 +90,28 @@ class MessageChatBloc{
   }
 
   void swapSticker() async{
+    _postMessageUseCase(
+        message: MessageSwapStickers(
+            idSender: _user.id!,
+            stickersNeed: Album()..collectionStickers = {
+              0 : [
+                Sticker(id: 1, text: "AUS 1", idGroup: 0, quantity: 1),
+              ],
+              2 : [
+                Sticker(id: 2, text: "BRA 1", idGroup: 2, quantity: 0),
+              ]
+            },
+            stickersSender: Album()..collectionStickers = {
+              2 : [
+                Sticker(id: 1, text: "BRA 13", idGroup: 2, quantity: 1),
+                Sticker(id: 2, text: "BRA 19", idGroup: 2, quantity: 0),
+              ]
+            },
+            status: StatusMessageConfirm.wait
+        ),
+        idChat: idChat);
+    return;
+
     await showModalBottomSheet<dynamic>(
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
             topLeft:  Radius.circular(12.0),
