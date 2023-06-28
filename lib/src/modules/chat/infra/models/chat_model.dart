@@ -5,6 +5,7 @@ class ChatModel extends Chat {
       required super.id,
       required super.name,
       required super.image,
+      required super.idUser,
       required super.username
   });
 
@@ -13,6 +14,7 @@ class ChatModel extends Chat {
       id: map['id'],
       name: map['name'],
       image: map['image'],
+      idUser: map['idUser'],
       username: map['username'],
     );
   }
