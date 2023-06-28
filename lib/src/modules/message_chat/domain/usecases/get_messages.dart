@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/infra/models/message_place_model.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/infra/models/message_simple_model.dart';
+import 'package:sticker_swap_client/src/modules/message_chat/infra/models/message_swap_stickers_model.dart';
 
 abstract class IGetMessages{
   Future<List<Message>> call({
@@ -41,7 +42,7 @@ class GetMessagesImpl implements IGetMessages{
 
   Message _messageFromMap(Map<String, dynamic> map) {
     if(map['type'] == 1) {
-      //Adicionar swap message
+      return MessageSwapStickersModel.fromMap(map);
     }
     if(map['type'] == 2) {
       return MessagePlaceModel.fromMap(map);

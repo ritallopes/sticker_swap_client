@@ -90,28 +90,6 @@ class MessageChatBloc{
   }
 
   void swapSticker() async{
-    _postMessageUseCase(
-        message: MessageSwapStickers(
-            idSender: _user.id!,
-            stickersNeed: Album()..collectionStickers = {
-              0 : [
-                Sticker(id: 1, text: "AUS 1", idGroup: 0, quantity: 1),
-              ],
-              2 : [
-                Sticker(id: 2, text: "BRA 1", idGroup: 2, quantity: 0),
-              ]
-            },
-            stickersSender: Album()..collectionStickers = {
-              2 : [
-                Sticker(id: 1, text: "BRA 13", idGroup: 2, quantity: 1),
-                Sticker(id: 2, text: "BRA 19", idGroup: 2, quantity: 0),
-              ]
-            },
-            status: StatusMessageConfirm.wait
-        ),
-        idChat: idChat);
-    return;
-
     await showModalBottomSheet<dynamic>(
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
             topLeft:  Radius.circular(12.0),
