@@ -13,9 +13,10 @@ class Album {
   Map<String, dynamic> toMap() {
     return {
       for (int i = 0; i < 38; i++)
-        i.toString(): [
-          for (Sticker sticker in collectionStickers[i]!) sticker.toMap(),
-        ],
+        if(collectionStickers.containsKey(i))
+          i.toString(): [
+            for (Sticker sticker in collectionStickers[i]!) sticker.toMap(),
+          ],
     };
   }
   

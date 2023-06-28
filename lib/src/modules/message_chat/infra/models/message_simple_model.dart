@@ -11,4 +11,12 @@ class MessageSimpleModel extends MessageSimple {
       idSender: map['idSender'],
     );
   }
+
+  Map<String, dynamic> toMap(){
+    return {
+      "id": id,
+      "message": message,
+      "idSender": idSender,
+    };
+  }
 }

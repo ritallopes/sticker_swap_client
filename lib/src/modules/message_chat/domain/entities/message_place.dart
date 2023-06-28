@@ -15,7 +15,7 @@ class MessagePlace extends Message{
     required this.date,
     required this.status,
 
-    required super.id,
+    super.id,
     required super.idSender,
 
     super.type = 2,
