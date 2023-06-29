@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_swap_client/src/core/components/app_bar_bottom_sheet.dart';
 
-class CreateSwapStartScreen extends StatelessWidget {
+class CreateSwapTypeScreen extends StatelessWidget {
+  Function(int) proximaTela;
+
+  CreateSwapTypeScreen({required this.proximaTela});
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -9,11 +12,10 @@ class CreateSwapStartScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        AppBarBottomSheet("Proposta de troca", context),
         Container(
           width: 400,
-          padding: EdgeInsets.fromLTRB(15, 15, 0, 15),
-          margin: EdgeInsets.only(left: 30, right: 30),
+          padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+          margin: const EdgeInsets.only(left: 30, right: 30),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
@@ -51,7 +53,9 @@ class CreateSwapStartScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              proximaTela(1);
+            },
             style: TextButton.styleFrom(
               padding:
                   const EdgeInsets.symmetric(vertical: 15, horizontal: 100),

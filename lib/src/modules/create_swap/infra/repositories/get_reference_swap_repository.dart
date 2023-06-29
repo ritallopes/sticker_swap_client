@@ -1,11 +1,9 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/repositories/interface_get_reference_swap_repository.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/external/config/create_swap_config.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/infra/datasources/interface_get_reference_swap_datasource.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
-import 'package:sticker_swap_client/src/modules/sticker/domain/usecases/get_album.dart';
 import 'package:sticker_swap_client/src/utils/const/filter_modes_utils.dart';
 
 class GetReferenceSwapRepository implements IGetReferenceSwapRepository{
