@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/repositories/interface_get_reference_swap_repository.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/usecases/get_reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/external/datasources/get_reference_swap_datasource.dart';
@@ -12,8 +13,11 @@ class CreateSwapType extends WidgetModule {
 
   Function(int) proximaTela;
   String idUser, idOtherUser;
+  ReferenceSwap referenceSwap;
+
   CreateSwapType({
     super.key,
+    required this.referenceSwap,
     required this.proximaTela,
     required this.idOtherUser,
     required this.idUser
@@ -22,6 +26,7 @@ class CreateSwapType extends WidgetModule {
   @override
   List<Bind<Object>> get binds => [
     Bind<CreateSwapTypeBloc>((i) => CreateSwapTypeBloc(
+        referenceSwap: referenceSwap,
         proximaTela: proximaTela,
         idUser: idUser,
         idOtherUser: idOtherUser

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/presenter/widgets/element_sticker.dart';
+import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
+import 'package:sticker_swap_client/src/utils/const/group_names_utils.dart';
 
 class CreateSwapAlbumScreen extends StatefulWidget {
+  ReferenceSwap referenceSwap;
+  CreateSwapAlbumScreen({required this.referenceSwap,});
   @override
   _CreateSwapAlbumScreenState createState() => _CreateSwapAlbumScreenState();
 }
@@ -40,26 +46,94 @@ class _CreateSwapAlbumScreenState extends State<CreateSwapAlbumScreen> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-          child: Text(
-            "Figurinhas de ...",
-            style: theme.textTheme.headlineSmall,
-          ),
+        Expanded(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                  child: Text(
+                    "Figurinhas de ...",
+                    style: theme.textTheme.headlineSmall,
+                  ),
+                ),
+
+                for(int i = 0; i <= 35; i++)
+                  if(widget.referenceSwap.stickersNeed.collectionStickers.containsKey(i))
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        alignment: WrapAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 6, 0, 4),
+                                child: Text(
+                                  GroupNamesUtils.names[i]!,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          for(Sticker sticker in (widget.referenceSwap.stickersNeed.collectionStickers[i] as List<Sticker>))
+                            ElementSticker(
+                              sticker: sticker,
+                              addSticker: (_){},
+                              detailsSticker: (_){},
+                            ),
+                        ],
+                      ),
+                    ),
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                  child: Text(
+                    "Figurinhas de ...",
+                    style: theme.textTheme.headlineSmall,
+                  ),
+                ),
+
+                for(int i = 0; i <= 35; i++)
+                  if(widget.referenceSwap.stickersSender.collectionStickers.containsKey(i))
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        alignment: WrapAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 6, 0, 4),
+                                child: Text(
+                                  GroupNamesUtils.names[i]!,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          for(Sticker sticker in (widget.referenceSwap.stickersSender.collectionStickers[i] as List<Sticker>))
+                            ElementSticker(
+                              sticker: sticker,
+                              addSticker: (_){},
+                              detailsSticker: (_){},
+                            ),
+                        ],
+                      ),
+                    ),
+              ],
+            )
         ),
-        const Placeholder(
-          fallbackHeight: 200,
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-          child: Text(
-            "Figurinhas de ...",
-            style: theme.textTheme.headlineSmall,
-          ),
-        ),
-        const Placeholder(
-          fallbackHeight: 200,
-        ),
+
         Align(
           alignment: Alignment.bottomCenter,
           child: TextButton(

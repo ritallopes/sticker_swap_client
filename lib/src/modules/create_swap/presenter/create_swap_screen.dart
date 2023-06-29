@@ -45,9 +45,12 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                   idUser: controller.user.id!,
                   idOtherUser: widget.chat!.idUser,
                   proximaTela: controller.mudarTela,
+                  referenceSwap: controller.referenceSwap,
                 );
               } else if (snapshot.data == 1) {
-                tela = CreateSwapAlbum();
+                tela = CreateSwapAlbum(
+                  referenceSwap: controller.referenceSwap,
+                );
               }
 
               return Expanded(
