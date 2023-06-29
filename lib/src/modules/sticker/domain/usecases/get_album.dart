@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sticker_swap_client/src/core/entities/album.dart';
-import 'package:sticker_swap_client/src/core/entities/user.dart';
 
 import '../../infra/models/sticker_model.dart';
 
 abstract class IGetAlbum{
 
-  Future<Album> call({required User user});
+  Future<Album> call({required String idUser});
 
 }
 
@@ -16,10 +15,10 @@ class GetAlbumImpl extends IGetAlbum{
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
-  Future<Album> call({required User user}) async{
+  Future<Album> call({required String idUser}) async{
     Album album = Album();
 
-    final result = await firestore.collection("album").doc(user.id).get();
+    final result = await firestore.collection("album").doc(idUser).get();
     print(result.data());
 
     album.collectionStickers = _generateAlbum(result.data()!);

@@ -29,6 +29,7 @@ class GetChatsImpl implements IGetChats{
 
         chats.add(Chat(
             id: doc.id,
+            idUser: map["id"],
             name: map["name"],
             image: map["image"],
             username: map["username"])

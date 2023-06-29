@@ -35,6 +35,7 @@ class CreateChatImpl implements ICreateChat{
         newChat = Chat(
             id: document.id,
             name: otherUser.name!,
+            idUser: otherUser.id!,
             image: otherUser.image,
             username: otherUser.username!,
         );
