@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/repositories/interface_get_reference_swap_repository.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/usecases/get_reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/external/datasources/get_reference_swap_datasource.dart';
@@ -9,6 +10,10 @@ import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swa
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_screen.dart';
 
 class CreateSwapModule extends WidgetModule {
+
+  Chat? chat;
+  CreateSwapModule({super.key, this.chat});
+
   @override
   List<Bind<Object>> get binds => [
         Bind<CreateSwapBloc>((i) => CreateSwapBloc()),
@@ -20,5 +25,5 @@ class CreateSwapModule extends WidgetModule {
       ];
 
   @override
-  Widget get view => CreateSwapScreen();
+  Widget get view => CreateSwapScreen(chat: chat,);
 }

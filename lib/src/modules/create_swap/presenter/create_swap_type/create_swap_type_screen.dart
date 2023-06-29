@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_type/create_swap_type_bloc.dart';
 
-class CreateSwapTypeScreen extends StatelessWidget {
-  Function(int) proximaTela;
+class CreateSwapTypeScreen extends StatefulWidget {
+  const CreateSwapTypeScreen({Key? key}) : super(key: key);
 
-  CreateSwapTypeScreen({required this.proximaTela});
+  @override
+  State<CreateSwapTypeScreen> createState() => _CreateSwapTypeScreenState();
+}
+
+class _CreateSwapTypeScreenState extends State<CreateSwapTypeScreen> {
+  final controller = Modular.get<CreateSwapTypeBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +60,10 @@ class CreateSwapTypeScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: TextButton(
-            onPressed: () {
-              proximaTela(1);
-            },
+            onPressed: controller.orgSwap,
             style: TextButton.styleFrom(
               padding:
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
               backgroundColor: Color.fromRGBO(154, 16, 50, 1),
               side: BorderSide(color: Color(0xff9A1032)),
               shape: RoundedRectangleBorder(
@@ -77,7 +82,7 @@ class CreateSwapTypeScreen extends StatelessWidget {
             onPressed: () {},
             style: TextButton.styleFrom(
               padding:
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
               backgroundColor: Color.fromRGBO(154, 16, 50, 1),
               side: BorderSide(color: Color(0xff9A1032)),
               shape: RoundedRectangleBorder(

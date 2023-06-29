@@ -1,17 +1,16 @@
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sticker_swap_client/src/core/entities/user.dart';
 
 class CreateSwapBloc {
-  
-  int indexTelaAtual = 0;
-  BehaviorSubject<int> _intexTelaStream = BehaviorSubject.seeded(0);
 
+  final user = Modular.get<User>();
+
+  final _intexTelaStream = BehaviorSubject.seeded(0);
   Stream<int> get getIndexTela => _intexTelaStream.stream;
 
   void mudarTela(int indexNovaTela) {
-    if (indexNovaTela != indexTelaAtual || indexNovaTela == 0) {
-      indexTelaAtual = indexNovaTela;
-      _intexTelaStream.sink.add(indexTelaAtual);
-    }
+    _intexTelaStream.sink.add(indexNovaTela);
   }
 
   void dispose() {
