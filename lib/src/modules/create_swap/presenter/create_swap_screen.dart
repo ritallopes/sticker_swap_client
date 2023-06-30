@@ -19,6 +19,12 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
   CreateSwapBloc controller = Modular.get<CreateSwapBloc>();
 
   @override
+  void initState() {
+    controller.getReferenceSwap(chat: widget.chat);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -26,38 +32,43 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        AppBarBottomSheet("Proposta de troca", context),
-        StreamBuilder<int>(
-            initialData: 0,
-            stream: controller.getIndexTela,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
-              }
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height -
+            MediaQueryData.fromView(WidgetsBinding.instance.window).padding.top,
+      ),
+      child: SafeArea(
+        bottom: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppBarBottomSheet("Proposta de troca", context),
+            StreamBuilder<int>(
+                initialData: 0,
+                stream: controller.getIndexTela,
+                builder: (context, snapshot) {
+                  late Widget tela;
+                  if(snapshot.data == 0){
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.data == 1) {
+                    tela = CreateSwapType(
+                      nameOtherUser: controller.nameOtherUser,
+                      referenceSwap: controller.referenceSwap,
+                      proximaTela: controller.mudarTela,
+                    );
+                  } else if (snapshot.data == 2) {
+                    tela = CreateSwapAlbum(
+                      referenceSwap: controller.referenceSwap,
+                    );
+                  }
 
-
-              late Widget tela;
-              if (snapshot.data == 0) {
-                tela = CreateSwapType(
-                  idUser: controller.user.id!,
-                  idOtherUser: widget.chat!.idUser,
-                  proximaTela: controller.mudarTela,
-                  referenceSwap: controller.referenceSwap,
-                );
-              } else if (snapshot.data == 1) {
-                tela = CreateSwapAlbum(
-                  referenceSwap: controller.referenceSwap,
-                );
-              }
-
-              return Expanded(
-                child: tela,
-              );
-            }),
-      ],
+                  return Expanded(child: tela,);
+                }),
+          ],
+        ),
+      ),
     );
+
+
   }
 }

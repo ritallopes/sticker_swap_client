@@ -92,10 +92,7 @@ class MessageChatBloc{
         backgroundColor: Color(0xC7CACBD6),
         isScrollControlled: true,
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => FractionallySizedBox(
-              heightFactor: 0.95,
-              child: CreateSwapModule(chat: chat),
-            ));
+        builder: (_) => CreateSwapModule(chat: chat));
   }
 
   Future<void> updateMarkLocation(MessagePlace message) async{

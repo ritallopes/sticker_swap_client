@@ -36,10 +36,11 @@ class _CreateSwapTypeScreenState extends State<CreateSwapTypeScreen> {
               const SizedBox(
                 width: 25,
               ),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  "Floyd tem disponível para troca 3 Especiais e 6 Comuns. \n\nVocê tem 3 Comuns que interessam a Floyd.",
-                  style: TextStyle(
+                  "${controller.nameOtherUser} tem ${controller.quantNeedSticker} figurinha(s) que você precisa."
+                      "\n\nVocê tem ${controller.quantSendSticker} figurinha(s) que ele deseja.",
+                  style: const TextStyle(
                     color: Color.fromRGBO(70, 98, 235, 1),
                     fontSize: 16,
                   ),
@@ -51,9 +52,13 @@ class _CreateSwapTypeScreenState extends State<CreateSwapTypeScreen> {
         ),
         Expanded(
           child: Center(
-            child: Text(
-              "Como deseja elaborar a proposta de troca?",
-              style: theme.textTheme.headlineSmall,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              child: Text(
+                "Como deseja elaborar a proposta de troca?",
+                style: theme.textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),

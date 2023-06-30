@@ -16,13 +16,12 @@ class CreateSwapModule extends WidgetModule {
 
   @override
   List<Bind<Object>> get binds => [
-        Bind<CreateSwapBloc>((i) => CreateSwapBloc()),
-        Bind<IGetReferenceSwapDatasource>((i) => GetReferenceSwapDatasource()),
-        Bind<IGetReferenceSwapRepository>((i) =>
-            GetReferenceSwapRepository(i.get<IGetReferenceSwapDatasource>())),
-        Bind<IGetReferenceSwap>(
-            (i) => GetReferenceSwap(i.get<IGetReferenceSwapRepository>())),
-      ];
+    Bind<CreateSwapBloc>((i) => CreateSwapBloc()),
+
+    Bind<IGetReferenceSwapDatasource>((i) => GetReferenceSwapDatasource()),
+    Bind<IGetReferenceSwapRepository>((i) => GetReferenceSwapRepository(i.get<IGetReferenceSwapDatasource>())),
+    Bind<GetReferenceSwap>((i) => GetReferenceSwap(i.get<IGetReferenceSwapRepository>())),
+  ];
 
   @override
   Widget get view => CreateSwapScreen(chat: chat,);
