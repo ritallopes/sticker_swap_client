@@ -19,7 +19,7 @@ class CreateSwapTypeBloc {
 
   Future<void> orgSuggestionSwap() async{
     ///TODO: Adicionar logica para sugestão de troca
-    proximaTela(2);
+    proximaTela(3);
   }
 
   int get quantNeedSticker => _countStickersAlbum(referenceSwap.stickersNeed);

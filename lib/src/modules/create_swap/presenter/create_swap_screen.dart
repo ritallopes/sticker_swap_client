@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_suggestion/create_swap_suggestion_module.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_type/create_swap_type_module.dart';
 
 import '../../../core/components/app_bar_bottom_sheet.dart';
@@ -60,6 +61,12 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                     tela = CreateSwapAlbum(
                       nameOtherUser: controller.nameOtherUser,
                       referenceSwap: controller.referenceSwap,
+                    );
+                  } else if(snapshot.data == 3){
+                    tela = CreateSwapSuggestion(
+                     nameOtherUser: controller.nameOtherUser,
+                     referenceSwap: controller.referenceSwap,
+                     proximaTela: controller.mudarTela,
                     );
                   }
 
