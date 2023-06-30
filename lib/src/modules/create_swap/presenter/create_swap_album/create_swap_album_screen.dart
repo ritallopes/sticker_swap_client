@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_album/create_swap_album_bloc.dart';
-import 'package:sticker_swap_client/src/modules/create_swap/presenter/widgets/element_sticker.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
+import 'package:sticker_swap_client/src/modules/sticker/presenter/widgets/element_sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/group_names_utils.dart';
 
 class CreateSwapAlbumScreen extends StatefulWidget {

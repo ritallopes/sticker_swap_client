@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_type/create_swap_type_bloc.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/presenter/widgets/button_create_swap.dart';
 
 class CreateSwapTypeScreen extends StatefulWidget {
   const CreateSwapTypeScreen({Key? key}) : super(key: key);
@@ -63,41 +64,17 @@ class _CreateSwapTypeScreenState extends State<CreateSwapTypeScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: TextButton(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: ButtonCreateSwap(
             onPressed: controller.orgSwap,
-            style: TextButton.styleFrom(
-              padding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
-              backgroundColor: Color.fromRGBO(154, 16, 50, 1),
-              side: BorderSide(color: Color(0xff9A1032)),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)),
-            ),
-            child: const Text("Manualmente",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                )),
+            text: "Manualmente",
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              padding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
-              backgroundColor: Color.fromRGBO(154, 16, 50, 1),
-              side: BorderSide(color: Color(0xff9A1032)),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)),
-            ),
-            child: const Text("Sugestão de troca",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                )),
+          child: ButtonCreateSwap(
+            onPressed: controller.orgSuggestionSwap,
+            text: "Sugestão de troca",
           ),
         ),
       ],
