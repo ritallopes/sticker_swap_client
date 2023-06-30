@@ -49,7 +49,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 builder: (context, snapshot) {
                   late Widget tela;
                   if(snapshot.data == 0){
-                    return const Center(child: CircularProgressIndicator());
+                    tela = const Center(child: CircularProgressIndicator());
                   } else if (snapshot.data == 1) {
                     tela = CreateSwapType(
                       nameOtherUser: controller.nameOtherUser,

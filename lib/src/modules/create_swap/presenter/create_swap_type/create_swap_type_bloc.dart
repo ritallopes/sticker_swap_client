@@ -1,3 +1,4 @@
+import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 
 class CreateSwapTypeBloc {
@@ -16,7 +17,17 @@ class CreateSwapTypeBloc {
     proximaTela(2);
   }
 
-  int get quantNeedSticker => 2;
-  int get quantSendSticker => 2;
+  int get quantNeedSticker => _countStickersAlbum(referenceSwap.stickersNeed);
+  int get quantSendSticker => _countStickersAlbum(referenceSwap.stickersSender);
+
+  int _countStickersAlbum(Album album){
+    int count =0;
+    for(int i =0; i < 35; i++){
+      if(album.collectionStickers.containsKey(i)){
+        count+=album.collectionStickers[i]!.length;
+      }
+    }
+    return count;
+  }
 
 }
