@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
+import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
+import 'package:sticker_swap_client/src/utils/const/group_names_utils.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
 
 import '../../../chat/domain/entities/chat.dart';
@@ -79,8 +81,29 @@ class MessageSwap extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Sugestão de troca", style:  textStyle,),
+
+        const SizedBox(height: 10,),
+
+        Text("Darei:", style:  textStyle,),
         Divider(height: 8, color: textStyle?.color,),
 
+        for(int i = 0; i <= 35; i++)
+          if(message.stickersNeed.collectionStickers.containsKey(i))
+            Text(
+              _textGroupSticker(i, message.stickersNeed.collectionStickers[i]!),
+              style:  textStyle,
+            ),
+        const SizedBox(height: 10,),
+
+        Text("Quero:", style:  textStyle,),
+        Divider(height: 8, color: textStyle?.color,),
+
+        for(int i = 0; i <= 35; i++)
+          if(message.stickersSender.collectionStickers.containsKey(i))
+            Text(
+              _textGroupSticker(i, message.stickersSender.collectionStickers[i]!),
+              style:  textStyle,
+            )
       ],
     );
   }
@@ -142,5 +165,14 @@ class MessageSwap extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _textGroupSticker(int i, List<Sticker> stickes){
+    String stickesText = "";
+    for(final sticker in stickes) {
+      stickesText += "${sticker.text.substring(3)},";
+    }
+
+    return "${GroupNamesUtils.names[i]!}: ${stickesText.substring(0, stickesText.length - 1)}";
   }
 }
