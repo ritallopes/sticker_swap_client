@@ -58,6 +58,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                     );
                   } else if (snapshot.data == 2) {
                     tela = CreateSwapAlbum(
+                      nameOtherUser: controller.nameOtherUser,
                       referenceSwap: controller.referenceSwap,
                     );
                   }
