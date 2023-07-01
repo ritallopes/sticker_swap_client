@@ -24,13 +24,13 @@ class CreateSwapBloc {
 
       if(swap.idSender == chat.idUser){
         referenceSwap = ReferenceSwap(
-            stickersSender: swap.stickersNeed,
-            stickersNeed: swap.stickersSender
+            stickersSender: swap.stickersSender,
+            stickersNeed: swap.stickersNeed
         );
       }else{
         referenceSwap = ReferenceSwap(
-            stickersSender: swap.stickersSender,
-            stickersNeed: swap.stickersNeed
+            stickersSender: swap.stickersNeed,
+            stickersNeed: swap.stickersSender
         );
       }
       mudarTela(2);

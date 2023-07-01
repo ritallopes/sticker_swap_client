@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/group_names_utils.dart';
@@ -99,23 +100,20 @@ class MessageSwap extends StatelessWidget {
             Text("Darei:", style:  textStyle,),
             Divider(height: 8, color: textStyle?.color,),
 
-            for(int i = 0; i <= 35; i++)
-              if(message.stickersNeed.collectionStickers.containsKey(i))
-                Text(
-                  _textGroupSticker(i, message.stickersNeed.collectionStickers[i]!),
-                  style:  textStyle,
-                ),
+
+            Text(
+              _textGroupSticker(message.stickersNeed),
+              style:  textStyle,
+            ),
             const SizedBox(height: 10,),
 
             Text("Quero:", style:  textStyle,),
             Divider(height: 8, color: textStyle?.color,),
 
-            for(int i = 0; i <= 35; i++)
-              if(message.stickersSender.collectionStickers.containsKey(i))
-                Text(
-                  _textGroupSticker(i, message.stickersSender.collectionStickers[i]!),
-                  style:  textStyle,
-                )
+            Text(
+              _textGroupSticker(message.stickersSender),
+              style:  textStyle,
+            )
           ],
         ),
       ),
@@ -181,12 +179,24 @@ class MessageSwap extends StatelessWidget {
     );
   }
 
-  String _textGroupSticker(int i, List<Sticker> stickes){
-    String stickesText = "";
-    for(final sticker in stickes) {
-      stickesText += "${sticker.text.substring(3)},";
-    }
+  String _textGroupSticker(Album album){
+    String message = "";
 
-    return "${GroupNamesUtils.names[i]!}: ${stickesText.substring(0, stickesText.length - 1)}";
+    for(int i = 0; i <= 35; i++){
+      if(album.collectionStickers.containsKey(i)){
+        String stickesText = "";
+        for(final sticker in album.collectionStickers[i]!) {
+          if(sticker.quantity>0) stickesText += "${sticker.text.substring(3)},";
+        }
+
+        if(stickesText != "") {
+          if(message!= "") message+= "\n";
+
+          message += "${GroupNamesUtils.names[i]!}: "
+              "${stickesText.substring(0, stickesText.length - 1)}";
+        }
+      }
+    }
+    return message;
   }
 }
