@@ -11,12 +11,14 @@ class MessageSwap extends StatelessWidget {
   final MessageSwapStickers message;
   final Chat chat;
   final Function({required MessageSwapStickers message, required int newStatus}) availableSwap;
+  final Function({required MessageSwapStickers message}) editSwap;
 
   const MessageSwap({
     Key? key,
     required this.isMy,
     required this.message,
     required this.availableSwap,
+    required this.editSwap,
     required this.chat
   }) : super(key: key);
 
@@ -29,8 +31,7 @@ class MessageSwap extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(8.0),
+            Ink(
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.grey, width: 2),
@@ -49,8 +50,7 @@ class MessageSwap extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Container(
-              padding: const EdgeInsets.all(8.0),
+            Ink(
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: const BorderRadius.all(Radius.circular(15))
@@ -77,34 +77,48 @@ class MessageSwap extends StatelessWidget {
   }
 
   Widget _textSwap({TextStyle? textStyle}){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Sugestão de troca", style:  textStyle,),
-
-        const SizedBox(height: 10,),
-
-        Text("Darei:", style:  textStyle,),
-        Divider(height: 8, color: textStyle?.color,),
-
-        for(int i = 0; i <= 35; i++)
-          if(message.stickersNeed.collectionStickers.containsKey(i))
-            Text(
-              _textGroupSticker(i, message.stickersNeed.collectionStickers[i]!),
-              style:  textStyle,
+    return InkWell(
+      onTap: ()=> editSwap(message: message),
+      borderRadius: const BorderRadius.all(Radius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text("Sugestão de troca", style:  textStyle,),
+                const SizedBox(width: 10,),
+                if(message.status != StatusMessageConfirm.accepted)
+                  const Icon(Icons.edit, color: Colors.white, size: 20,)
+              ],
             ),
-        const SizedBox(height: 10,),
 
-        Text("Quero:", style:  textStyle,),
-        Divider(height: 8, color: textStyle?.color,),
+            const SizedBox(height: 10,),
 
-        for(int i = 0; i <= 35; i++)
-          if(message.stickersSender.collectionStickers.containsKey(i))
-            Text(
-              _textGroupSticker(i, message.stickersSender.collectionStickers[i]!),
-              style:  textStyle,
-            )
-      ],
+            Text("Darei:", style:  textStyle,),
+            Divider(height: 8, color: textStyle?.color,),
+
+            for(int i = 0; i <= 35; i++)
+              if(message.stickersNeed.collectionStickers.containsKey(i))
+                Text(
+                  _textGroupSticker(i, message.stickersNeed.collectionStickers[i]!),
+                  style:  textStyle,
+                ),
+            const SizedBox(height: 10,),
+
+            Text("Quero:", style:  textStyle,),
+            Divider(height: 8, color: textStyle?.color,),
+
+            for(int i = 0; i <= 35; i++)
+              if(message.stickersSender.collectionStickers.containsKey(i))
+                Text(
+                  _textGroupSticker(i, message.stickersSender.collectionStickers[i]!),
+                  style:  textStyle,
+                )
+          ],
+        ),
+      ),
     );
   }
 

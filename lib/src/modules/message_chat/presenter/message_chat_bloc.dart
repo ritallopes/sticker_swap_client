@@ -53,6 +53,10 @@ class MessageChatBloc{
     }
   }
 
+  void editSwap({required MessageSwapStickers message}){
+    swapSticker(messageSwap: message);
+  }
+
   void sendMessage() async{
     if(textController.text.isNotEmpty){
       final message = MessageSimple(
@@ -83,16 +87,16 @@ class MessageChatBloc{
             ));
   }
 
-  void swapSticker() async {
+  void swapSticker({MessageSwapStickers? messageSwap}) async {
     await showModalBottomSheet<dynamic>(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12.0),
                 topRight: Radius.circular(12.0))),
-        backgroundColor: Color(0xC7CACBD6),
+        backgroundColor: const Color(0xC7CACBD6),
         isScrollControlled: true,
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => CreateSwapModule(chat: chat));
+        builder: (_) => CreateSwapModule(chat: chat, messageSwap: messageSwap));
   }
 
   Future<void> updateMarkLocation(MessagePlace message) async{

@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_suggestion/create_swap_suggestion_module.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_type/create_swap_type_module.dart';
+import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 
 import '../../../core/components/app_bar_bottom_sheet.dart';
 import 'create_swap_album/create_swap_album_module.dart';
@@ -10,7 +11,8 @@ import 'create_swap_bloc.dart';
 
 class CreateSwapScreen extends StatefulWidget {
   final Chat? chat;
-  const CreateSwapScreen({super.key, this.chat});
+  final MessageSwapStickers? messageSwap;
+  const CreateSwapScreen({super.key, this.chat, this.messageSwap});
 
   @override
   State<CreateSwapScreen> createState() => _CreateSwapScreenState();
@@ -21,7 +23,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
 
   @override
   void initState() {
-    controller.getReferenceSwap(chat: widget.chat);
+    controller.getReferenceSwap(chat: widget.chat, swap: widget.messageSwap);
     super.initState();
   }
 

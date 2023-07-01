@@ -4,6 +4,7 @@ import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/usecases/get_reference_swap.dart';
+import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 
 class CreateSwapBloc {
 
@@ -17,15 +18,24 @@ class CreateSwapBloc {
   Stream<int> get getIndexTela => _intexTelaStream.stream;
 
 
-  Future<void> getReferenceSwap({Chat? chat}) async{
-    final referenceSwap = await _getReference(
-      idSender: user.id!,
-      idOtherUser: chat!.idUser,
-    );
-    nameOtherUser = chat.name;
+  Future<void> getReferenceSwap({Chat? chat, MessageSwapStickers? swap}) async{
+    if(swap != null){
+      nameOtherUser = chat!.name;
+      referenceSwap = ReferenceSwap(
+          stickersSender: swap.stickersSender,
+          stickersNeed: swap.stickersNeed
+      );
+      mudarTela(2);
+    }else if(chat != null){
+      final referenceSwap = await _getReference(
+        idSender: user.id!,
+        idOtherUser: chat.idUser,
+      );
+      nameOtherUser = chat.name;
 
-    this.referenceSwap = referenceSwap;
-    mudarTela(1);
+      this.referenceSwap = referenceSwap;
+      mudarTela(1);
+    }
   }
 
   void mudarTela(int indexNovaTela) {

@@ -8,11 +8,13 @@ import 'package:sticker_swap_client/src/modules/create_swap/infra/datasources/in
 import 'package:sticker_swap_client/src/modules/create_swap/infra/repositories/get_reference_swap_repository.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_bloc.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_screen.dart';
+import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 
 class CreateSwapModule extends WidgetModule {
 
   Chat? chat;
-  CreateSwapModule({super.key, this.chat});
+  MessageSwapStickers? messageSwap;
+  CreateSwapModule({super.key, this.chat, this.messageSwap});
 
   @override
   List<Bind<Object>> get binds => [
@@ -24,5 +26,5 @@ class CreateSwapModule extends WidgetModule {
   ];
 
   @override
-  Widget get view => CreateSwapScreen(chat: chat,);
+  Widget get view => CreateSwapScreen(chat: chat, messageSwap: messageSwap,);
 }
