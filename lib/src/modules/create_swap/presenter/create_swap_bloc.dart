@@ -21,10 +21,18 @@ class CreateSwapBloc {
   Future<void> getReferenceSwap({Chat? chat, MessageSwapStickers? swap}) async{
     if(swap != null){
       nameOtherUser = chat!.name;
-      referenceSwap = ReferenceSwap(
-          stickersSender: swap.stickersSender,
-          stickersNeed: swap.stickersNeed
-      );
+
+      if(swap.idSender == chat.idUser){
+        referenceSwap = ReferenceSwap(
+            stickersSender: swap.stickersNeed,
+            stickersNeed: swap.stickersSender
+        );
+      }else{
+        referenceSwap = ReferenceSwap(
+            stickersSender: swap.stickersSender,
+            stickersNeed: swap.stickersNeed
+        );
+      }
       mudarTela(2);
     }else if(chat != null){
       final referenceSwap = await _getReference(
