@@ -13,7 +13,7 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/get
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/post_message.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
 
-class MessageChatBloc{
+class MessageChatBloc {
   late Chat chat;
   final User _user = Modular.get<User>();
   final IGetMessages _getMessagesUseCase = Modular.get<IGetMessages>();
@@ -25,13 +25,9 @@ class MessageChatBloc{
   final BehaviorSubject<List<Message>> _messagesStream = BehaviorSubject();
   Stream<List<Message>> get getMessagesView => _messagesStream.stream;
 
-
-  void getMessages(Chat chat) async{
+  void getMessages(Chat chat) async {
     this.chat = chat;
-    messages = await _getMessagesUseCase(
-        idChat: chat.id,
-        lastID: ""
-    );
+    messages = await _getMessagesUseCase(idChat: chat.id, lastID: "");
     _messagesStream.sink.add(messages);
   }
 
@@ -53,20 +49,19 @@ class MessageChatBloc{
     }
   }
 
-  void editSwap({required MessageSwapStickers message}){
+  void editSwap({required MessageSwapStickers message}) {
     swapSticker(messageSwap: message);
   }
 
-  void sendMessage() async{
-    if(textController.text.isNotEmpty){
-      final message = MessageSimple(
-          message: textController.text,
-          idSender: _user.id!
-      );
+  void sendMessage() async {
+    if (textController.text.isNotEmpty) {
+      final message =
+          MessageSimple(message: textController.text, idSender: _user.id!);
 
-      final sucesso = await _postMessageUseCase(message: message, idChat: chat.id);
+      final sucesso =
+          await _postMessageUseCase(message: message, idChat: chat.id);
 
-      if(sucesso){
+      if (sucesso) {
         messages.add(message);
         textController.clear();
         _messagesStream.sink.add(messages);
@@ -76,10 +71,10 @@ class MessageChatBloc{
 
   void markLocation() async {
     await showModalBottomSheet<dynamic>(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
-            topLeft:  Radius.circular(12.0),
-            topRight:  Radius.circular(12.0)
-        )),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0))),
         backgroundColor: const Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
         builder: (_) => MarkLocationModule(
@@ -99,10 +94,11 @@ class MessageChatBloc{
         builder: (_) => CreateSwapModule(chat: chat, messageSwap: messageSwap));
   }
 
-  Future<void> updateMarkLocation(MessagePlace message) async{
-    final sucesso = await _postMessageUseCase(message: message, idChat: chat.id);
+  Future<void> updateMarkLocation(MessagePlace message) async {
+    final sucesso =
+        await _postMessageUseCase(message: message, idChat: chat.id);
 
-    if(sucesso){
+    if (sucesso) {
       messages.add(message);
       _messagesStream.add(messages);
     }

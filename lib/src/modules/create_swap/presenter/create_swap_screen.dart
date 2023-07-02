@@ -51,7 +51,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 stream: controller.getIndexTela,
                 builder: (context, snapshot) {
                   late Widget tela;
-                  if(snapshot.data == 0){
+                  if (snapshot.data == 0) {
                     tela = const Center(child: CircularProgressIndicator());
                   } else if (snapshot.data == 1) {
                     tela = CreateSwapType(
@@ -63,22 +63,23 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                     tela = CreateSwapAlbum(
                       nameOtherUser: controller.nameOtherUser,
                       referenceSwap: controller.referenceSwap,
+                      idChat: widget.chat!.id,
                     );
-                  } else if(snapshot.data == 3){
+                  } else if (snapshot.data == 3) {
                     tela = CreateSwapSuggestion(
-                     nameOtherUser: controller.nameOtherUser,
-                     referenceSwap: controller.referenceSwap,
-                     proximaTela: controller.mudarTela,
+                      nameOtherUser: controller.nameOtherUser,
+                      referenceSwap: controller.referenceSwap,
+                      proximaTela: controller.mudarTela,
                     );
                   }
 
-                  return Expanded(child: tela,);
+                  return Expanded(
+                    child: tela,
+                  );
                 }),
           ],
         ),
       ),
     );
-
-
   }
 }

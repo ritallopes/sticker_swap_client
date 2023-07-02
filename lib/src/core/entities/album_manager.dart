@@ -20,7 +20,7 @@ class AlbumManager{
     repetidas = 0;
 
     //Calcular dados
-    for(int i =0; i < 38; i++){
+    for(int i =0; i < 35; i++){
       if(albumView!.collectionStickers.containsKey(i)){
         for(Sticker sticker in (albumView!.collectionStickers[i] as List<Sticker>)) {
           if(sticker.quantity > 0) {

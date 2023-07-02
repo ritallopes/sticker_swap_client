@@ -2,7 +2,6 @@ import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 
 class CreateSwapTypeBloc {
-
   Function(int) proximaTela;
   String nameOtherUser;
   ReferenceSwap referenceSwap;
@@ -12,12 +11,11 @@ class CreateSwapTypeBloc {
     required this.nameOtherUser,
   });
 
-
-  Future<void> orgSwap() async{
+  Future<void> orgSwap() async {
     proximaTela(2);
   }
 
-  Future<void> orgSuggestionSwap() async{
+  Future<void> orgSuggestionSwap() async {
     ///TODO: Adicionar logica para sugestão de troca
     proximaTela(3);
   }
@@ -34,5 +32,4 @@ class CreateSwapTypeBloc {
     }
     return count;
   }
-
 }

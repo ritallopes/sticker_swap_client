@@ -7,7 +7,6 @@ import 'package:sticker_swap_client/src/modules/create_swap/domain/usecases/get_
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 
 class CreateSwapBloc {
-
   late String nameOtherUser;
   late ReferenceSwap referenceSwap;
 
@@ -17,24 +16,24 @@ class CreateSwapBloc {
   final _intexTelaStream = BehaviorSubject.seeded(0);
   Stream<int> get getIndexTela => _intexTelaStream.stream;
 
-
-  Future<void> getReferenceSwap({Chat? chat, MessageSwapStickers? swap}) async{
-    if(swap != null){
+  Future<void> getReferenceSwap({Chat? chat, MessageSwapStickers? swap}) async {
+    // verifica se a proposta é nova ou se está editando a proposta
+    if (swap != null) {
       nameOtherUser = chat!.name;
 
-      if(swap.idSender == chat.idUser){
+      // preenche o reference swap de acordo
+      if (swap.idSender == chat.idUser) {
         referenceSwap = ReferenceSwap(
             stickersSender: swap.stickersSender,
-            stickersNeed: swap.stickersNeed
-        );
-      }else{
+            stickersNeed: swap.stickersNeed);
+      } else {
         referenceSwap = ReferenceSwap(
             stickersSender: swap.stickersNeed,
-            stickersNeed: swap.stickersSender
-        );
+            stickersNeed: swap.stickersSender);
       }
       mudarTela(2);
-    }else if(chat != null){
+    } else if (chat != null) {
+      // cria nova proposta preenchendo o
       final referenceSwap = await _getReference(
         idSender: user.id!,
         idOtherUser: chat.idUser,
