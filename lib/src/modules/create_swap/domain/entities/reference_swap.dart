@@ -7,11 +7,6 @@ class ReferenceSwap {
   ReferenceSwap({required this.stickersSender, required this.stickersNeed});
 
   @override
-  String toString() {
-    return 'ReferenceSwap {\n Album das figurinhas desejadas:\n $stickersNeed \n\n Album das figurinhas disponíveis para troca:\n $stickersSender\n}';
-  }
-
-  @override
   bool operator ==(other) {
     if (identical(this, other)) {
       return true;

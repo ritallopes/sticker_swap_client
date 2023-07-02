@@ -16,18 +16,10 @@ void main() {
   String idSender = 'idSender';
   String idOtherUser = 'idOtherUser';
 
-  // initial data
-  Album albumSender = Album();
-  Album albumOtherUser = Album();
-
-  // expected answer
-  Album stickersNeed = Album();
-  Album stickersSender = Album();
-
   test('Teste albums vazios', () async {
     // initial data
-    albumSender = generateUniformAlbum(0);
-    albumOtherUser = generateUniformAlbum(0);
+    Album albumSender = generateUniformAlbum(0);
+    Album albumOtherUser = generateUniformAlbum(0);
 
     // setup mocks
     when(mockdatasource.getReference(
@@ -38,28 +30,22 @@ void main() {
           idOtherUser: albumOtherUser,
         });
 
-    // expected answer
-    stickersNeed = FilterUtils.prepareAlbumToExchange(generateUniformAlbum(0));
-    stickersSender =
-        FilterUtils.prepareAlbumToExchange(generateUniformAlbum(0));
-
-    ReferenceSwap referenceSwapExp = ReferenceSwap(
-        stickersNeed: stickersNeed, stickersSender: stickersSender);
-
     final result =
         await GetReferenceSwapRepository(mockdatasource).getReference(
       idSender: idSender,
       idOtherUser: idOtherUser,
     );
 
-    expect(result, referenceSwapExp);
+    expect(result, isA<ReferenceSwap>());
+    expect(result.stickersNeed.collectionStickers.isEmpty, true);
+    expect(result.stickersSender.collectionStickers.isEmpty, true);
   });
 
   test('Teste album vazio e album completo com todas as figurinhas repetidas',
       () async {
     // initial data
-    albumSender = generateUniformAlbum(0);
-    albumOtherUser = generateUniformAlbum(2);
+    Album albumSender = generateUniformAlbum(0);
+    Album albumOtherUser = generateUniformAlbum(2);
 
     // setup mocks
     when(mockdatasource.getReference(
@@ -71,8 +57,8 @@ void main() {
         });
 
     // expected answer
-    stickersNeed = FilterUtils.prepareAlbumToExchange(generateUniformAlbum(1));
-    stickersSender =
+    Album stickersNeed = FilterUtils.prepareAlbumToExchange(generateUniformAlbum(1));
+    Album stickersSender =
         FilterUtils.prepareAlbumToExchange(generateUniformAlbum(0));
 
     ReferenceSwap referenceSwapExp = ReferenceSwap(
@@ -84,6 +70,13 @@ void main() {
       idOtherUser: idOtherUser,
     );
 
-    expect(result, referenceSwapExp);
+    expect(
+        result.stickersSender.collectionStickers,
+        referenceSwapExp.stickersSender.collectionStickers
+    );
+    expect(
+        result.stickersNeed.collectionStickers,
+        referenceSwapExp.stickersNeed.collectionStickers
+    );
   });
 }
