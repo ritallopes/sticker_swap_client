@@ -78,6 +78,7 @@ class MessageChatBloc{
             topLeft:  Radius.circular(12.0),
             topRight:  Radius.circular(12.0)
         )),
+        isScrollControlled: true,
         backgroundColor: const Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
         builder: (_) => MarkLocationModule(
