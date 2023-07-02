@@ -79,7 +79,9 @@ class MessageSwap extends StatelessWidget {
 
   Widget _textSwap({TextStyle? textStyle}){
     return InkWell(
-      onTap: ()=> editSwap(message: message),
+      onTap: (){
+        if(!isMy) editSwap(message: message);
+      },
       borderRadius: const BorderRadius.all(Radius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
