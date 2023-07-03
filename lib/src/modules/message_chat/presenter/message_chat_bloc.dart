@@ -42,10 +42,16 @@ class MessageChatBloc {
   }
 
   void availableSwap(
-      {required MessageSwapStickers message, required int newStatus}) {
+      {required MessageSwapStickers message, required int newStatus}) async {
     if (message.status == StatusMessageConfirm.wait) {
       message.status = newStatus;
-      _messagesStream.sink.add(messages);
+
+      final sucesso =
+          await _postMessageUseCase(message: message, idChat: chat.id);
+
+      if (sucesso) {
+        _messagesStream.sink.add(messages);
+      }
     }
   }
 
