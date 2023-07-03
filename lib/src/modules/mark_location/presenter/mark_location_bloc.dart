@@ -13,6 +13,17 @@ class MarkLocationBloc{
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
 
+  void formatText(TextEditingController controller, String separator) {
+    final text = controller.text;
+  
+    if (text.length == 2 && !text.contains(separator)) {
+      controller.text = text + separator;
+      controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length),
+      );
+    }
+  }
+
   void sendMessage() async{
     MessagePlace message = MessagePlace(
         time: timeController.text,
@@ -29,6 +40,16 @@ class MarkLocationBloc{
     dateController.dispose();
     placeController.dispose();
     timeController.dispose();
+  }
+
+  void initState() {
+    dateController.addListener(() {
+      formatText(dateController, "/");
+    });
+
+    timeController.addListener(() {
+      formatText(timeController, ":");
+    });
   }
 
 }
