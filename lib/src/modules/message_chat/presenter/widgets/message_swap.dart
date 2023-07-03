@@ -120,7 +120,7 @@ class MessageSwap extends StatelessWidget {
               color: textStyle?.color,
             ),
             Text(
-              _textGroupSticker(message.stickersNeed),
+              _textGroupSticker(message.stickersSender),
               style: textStyle,
             ),
             const SizedBox(
@@ -135,7 +135,7 @@ class MessageSwap extends StatelessWidget {
               color: textStyle?.color,
             ),
             Text(
-              _textGroupSticker(message.stickersSender),
+              _textGroupSticker(message.stickersNeed),
               style: textStyle,
             )
           ],

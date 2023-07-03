@@ -100,6 +100,7 @@ class _MessageChatScreenState extends ModularState<MessageChatScreen, MessageCha
   Widget _top(){
     return Container(
       decoration: const BoxDecoration(
+        color: Colors.white,
           border:  Border(
               bottom: BorderSide(color: Color.fromRGBO(117, 122, 163, 0.79)))
       ),
