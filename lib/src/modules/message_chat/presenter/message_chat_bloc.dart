@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_module.dart';
 import 'package:sticker_swap_client/src/modules/mark_location/presenter/mark_location_module.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message.dart';
@@ -12,7 +13,6 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/mes
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/get_messages.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/post_message.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/update_message_status.dart';
-import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
 
 class MessageChatBloc {
@@ -37,6 +37,7 @@ class MessageChatBloc {
 
   bool isMyMessage(Message message) => message.idSender == _user.id;
 
+  //<! Funções de avliação de susgestão>
   void availableLocalization(
       {required MessagePlace messagePlace, required int newStatus}) async{
     if (messagePlace.status == StatusMessageConfirm.wait) {
@@ -61,10 +62,14 @@ class MessageChatBloc {
     }
   }
 
+
+  ///Abertura de modal para editar troca
   void editSwap({required MessageSwapStickers message}) {
     swapSticker(messageSwap: message);
   }
 
+
+  //<! Funções de envio de mensagens e susgestões>
   void sendMessage() async {
     if (textController.text.isNotEmpty) {
       final message =
@@ -104,9 +109,15 @@ class MessageChatBloc {
         backgroundColor: const Color(0xC7CACBD6),
         isScrollControlled: true,
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => CreateSwapModule(chat: chat, messageSwap: messageSwap));
+        builder: (_) => CreateSwapModule(
+          chat: chat,
+          messageSwap: messageSwap,
+          sendRefereceSwap: _sendRefereceSwap,
+        ));
   }
 
+
+  //<Funções auxilires para cadastro de mensagens>
   Future<void> updateMarkLocation(MessagePlace message) async {
     final sucesso =
         await _postMessageUseCase(message: message, idChat: chat.id);
@@ -117,6 +128,26 @@ class MessageChatBloc {
     }
   }
 
+  Future<void> _sendRefereceSwap(ReferenceSwap referenceSwap) async {
+    final message = MessageSwapStickers(
+      idSender: _user.id!,
+      stickersNeed: referenceSwap.stickersNeed,
+      stickersSender: referenceSwap.stickersSender,
+      status: StatusMessageConfirm.wait,
+    );
+
+    final sucesso = await _postMessageUseCase(
+        message: message,
+        idChat: chat.id
+    );
+
+    if (sucesso) {
+      messages.add(message);
+      _messagesStream.add(messages);
+    }
+  }
+
+  ///Dispose dos componentes
   void dispose() {
     textController.dispose();
     _messagesStream.close();

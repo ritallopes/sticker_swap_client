@@ -8,19 +8,22 @@ import 'create_swap_album_screen.dart';
 class CreateSwapAlbum extends WidgetModule {
   final ReferenceSwap referenceSwap;
   final String nameOtherUser;
-  final String idChat;
+  final Function(ReferenceSwap referenceSwap) sendRefereceSwap;
 
   CreateSwapAlbum(
       {required this.referenceSwap,
       required this.nameOtherUser,
-      required this.idChat});
+      required this.sendRefereceSwap});
 
   @override
   List<Bind<Object>> get binds => [
         Bind<CreateSwapAlbumBloc>((i) => CreateSwapAlbumBloc(
-            referenceSwap: referenceSwap, nameOtherUser: nameOtherUser, idChat: idChat))
+          referenceSwap: referenceSwap,
+          nameOtherUser: nameOtherUser,
+          sendRefereceSwap: sendRefereceSwap
+        ))
       ];
 
   @override
-  Widget get view => CreateSwapAlbumScreen();
+  Widget get view => const CreateSwapAlbumScreen();
 }

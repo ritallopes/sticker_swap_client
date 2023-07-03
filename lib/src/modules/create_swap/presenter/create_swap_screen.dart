@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_suggestion/create_swap_suggestion_module.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_type/create_swap_type_module.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
@@ -12,7 +13,14 @@ import 'create_swap_bloc.dart';
 class CreateSwapScreen extends StatefulWidget {
   final Chat? chat;
   final MessageSwapStickers? messageSwap;
-  const CreateSwapScreen({super.key, this.chat, this.messageSwap});
+  final Function(ReferenceSwap referenceSwap) sendRefereceSwap;
+
+  const CreateSwapScreen({
+    super.key,
+    this.chat,
+    this.messageSwap,
+    required this.sendRefereceSwap,
+  });
 
   @override
   State<CreateSwapScreen> createState() => _CreateSwapScreenState();
@@ -63,7 +71,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                     tela = CreateSwapAlbum(
                       nameOtherUser: controller.nameOtherUser,
                       referenceSwap: controller.referenceSwap,
-                      idChat: widget.chat!.id,
+                      sendRefereceSwap: widget.sendRefereceSwap,
                     );
                   } else if (snapshot.data == 3) {
                     tela = CreateSwapSuggestion(

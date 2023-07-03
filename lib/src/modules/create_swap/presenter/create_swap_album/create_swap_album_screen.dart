@@ -103,8 +103,7 @@ class _CreateSwapAlbumScreenState extends State<CreateSwapAlbumScreen> {
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
             onPressed: () {
-              controller.sendRefereceSwap();
-              // TODO refresh messages in chat
+              controller.sendRefereceSwap(controller.referenceSwap);
               Navigator.pop(context);
             },
             style: TextButton.styleFrom(
