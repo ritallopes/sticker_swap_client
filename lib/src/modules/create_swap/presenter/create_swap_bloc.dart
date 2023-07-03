@@ -1,10 +1,12 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/usecases/get_reference_swap.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
+import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 
 class CreateSwapBloc {
   late String nameOtherUser;
@@ -21,16 +23,10 @@ class CreateSwapBloc {
     if (swap != null) {
       nameOtherUser = chat!.name;
 
-      // preenche o reference swap de acordo
-      if (swap.idSender == chat.idUser) {
-        referenceSwap = ReferenceSwap(
-            stickersSender: swap.stickersSender,
-            stickersNeed: swap.stickersNeed);
-      } else {
-        referenceSwap = ReferenceSwap(
-            stickersSender: swap.stickersNeed,
-            stickersNeed: swap.stickersSender);
-      }
+      referenceSwap = ReferenceSwap(
+          stickersSender: _generateCopyAlbumSwap(swap.stickersNeed),
+          stickersNeed: _generateCopyAlbumSwap(swap.stickersSender),
+      );
       mudarTela(2);
     } else if (chat != null) {
       // cria nova proposta preenchendo o
@@ -48,6 +44,38 @@ class CreateSwapBloc {
   void mudarTela(int indexNovaTela) {
     _intexTelaStream.sink.add(indexNovaTela);
   }
+
+
+  Album _generateCopyAlbumSwap(Album album){
+    Album albumCopy = Album();
+    albumCopy.collectionStickers = {};
+
+    List<Sticker> sticksGroup = [];
+
+    for (int i = 0; i < 35; i++) {
+      sticksGroup.clear();
+
+      if (album.collectionStickers.containsKey(i)) {
+        for (Sticker sticker in (album.collectionStickers[i] as List<Sticker>)){
+          sticksGroup.add(
+            Sticker(
+                id: sticker.id,
+                text: sticker.text,
+                idGroup: sticker.idGroup,
+                quantity: sticker.quantity
+            )
+          );
+        }
+      }
+
+      if (sticksGroup.isNotEmpty) {
+        albumCopy.collectionStickers[i] = List.from(sticksGroup);
+      }
+    }
+
+    return albumCopy;
+  }
+
 
   void dispose() {
     _intexTelaStream.close();

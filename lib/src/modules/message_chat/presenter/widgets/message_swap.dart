@@ -83,7 +83,9 @@ class MessageSwap extends StatelessWidget {
   Widget _textSwap({TextStyle? textStyle}) {
     return InkWell(
       onTap: () {
-        if (!isMy) editSwap(message: message);
+        if (!isMy && message.status != StatusMessageConfirm.accepted){
+          editSwap(message: message);
+        }
       },
       borderRadius: const BorderRadius.all(Radius.circular(15)),
       child: Padding(
@@ -100,7 +102,7 @@ class MessageSwap extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                if (message.status != StatusMessageConfirm.accepted)
+                if (!isMy && message.status != StatusMessageConfirm.accepted)
                   const Icon(
                     Icons.edit,
                     color: Colors.white,
@@ -120,7 +122,7 @@ class MessageSwap extends StatelessWidget {
               color: textStyle?.color,
             ),
             Text(
-              _textGroupSticker(message.stickersNeed),
+              _textGroupSticker(message.stickersSender),
               style: textStyle,
             ),
             const SizedBox(
@@ -135,7 +137,7 @@ class MessageSwap extends StatelessWidget {
               color: textStyle?.color,
             ),
             Text(
-              _textGroupSticker(message.stickersSender),
+              _textGroupSticker(message.stickersNeed),
               style: textStyle,
             )
           ],
