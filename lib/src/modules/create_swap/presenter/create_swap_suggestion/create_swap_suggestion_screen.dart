@@ -22,6 +22,7 @@ class _CreateSwapSuggestionScreenState extends State<CreateSwapSuggestionScreen>
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
           margin: const EdgeInsets.only(left: 32, right: 32, top: 64),
@@ -88,18 +89,18 @@ class _CreateSwapSuggestionScreenState extends State<CreateSwapSuggestionScreen>
               children: [
                 InputCreateSwap(
                     controller: controller.maxTradedStickers,
-                    text: "Número de figurinhas máximo que deseja receber"
+                    text: "Número de figurinhas máximo que deseja trocar",
                 ),
                 const SizedBox(height: 16,),
                 InputCreateSwap(
                     controller: controller.maxReceivedStickers,
-                    text: "Número de figurinhas máximo que deseja receber"
+                    text: "Número de figurinhas máximo que deseja receber",
                 ),
               ],
             ),
         ),
         Padding(
-            padding: const EdgeInsets.only(left: 32, right: 32, top: 64),
+            padding: const EdgeInsets.only(left: 32, right: 32, top: 64, bottom: 32),
             child: ButtonCreateSwap(
               onPressed: controller.generateSuggestion,
               text: "Obter sugestão de troca"

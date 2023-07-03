@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class InputCreateSwap extends StatelessWidget {
   final TextEditingController controller;
   final String text;
-  const InputCreateSwap({super.key, 
-    required this.controller, required this.text
+  const InputCreateSwap({super.key,
+    required this.controller, required this.text,
   });
 
   @override
@@ -13,7 +13,7 @@ class InputCreateSwap extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-        TextField(
+        TextFormField(
           controller: controller,
           keyboardType: TextInputType.number,
           textAlign: TextAlign.center,
@@ -31,7 +31,7 @@ class InputCreateSwap extends StatelessWidget {
               maxWidth: 46,
               maxHeight: 42,
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10)
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10)
           ),
         ),
         const SizedBox(width: 16,),
