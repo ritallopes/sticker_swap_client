@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sticker_swap_client/src/core/entities/album.dart';
 import 'package:sticker_swap_client/src/core/entities/user.dart';
 import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_module.dart';
@@ -16,8 +15,8 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/upd
 import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
 
-class MessageChatBloc{
-  late String idChat;
+class MessageChatBloc {
+  late Chat chat;
   final User _user = Modular.get<User>();
   final IGetMessages _getMessagesUseCase = Modular.get<IGetMessages>();
   final IPostMessage _postMessageUseCase = Modular.get<IPostMessage>();
@@ -30,13 +29,9 @@ class MessageChatBloc{
   final BehaviorSubject<List<Message>> _messagesStream = BehaviorSubject();
   Stream<List<Message>> get getMessagesView => _messagesStream.stream;
 
-
-  void getMessages(Chat chat) async{
-    idChat = chat.id;
-    messages = await _getMessagesUseCase(
-        idChat: idChat,
-        lastID: ""
-    );
+  void getMessages(Chat chat) async {
+    this.chat = chat;
+    messages = await _getMessagesUseCase(idChat: chat.id, lastID: "");
     _messagesStream.sink.add(messages);
   }
 
@@ -49,7 +44,7 @@ class MessageChatBloc{
       await _updateMessageStatusUseCase(
           message: messagePlace,
           newStatus: newStatus,
-          idChat: idChat);
+          idChat: chat.id);
       _messagesStream.sink.add(messages);
     }
   }
@@ -61,21 +56,24 @@ class MessageChatBloc{
       await _updateMessageStatusUseCase(
           message: message,
           newStatus: newStatus,
-          idChat: idChat);
+          idChat: chat.id);
       _messagesStream.sink.add(messages);
     }
   }
 
-  void sendMessage() async{
-    if(textController.text.isNotEmpty){
-      final message = MessageSimple(
-          message: textController.text,
-          idSender: _user.id!
-      );
+  void editSwap({required MessageSwapStickers message}) {
+    swapSticker(messageSwap: message);
+  }
 
-      final sucesso = await _postMessageUseCase(message: message, idChat: idChat);
+  void sendMessage() async {
+    if (textController.text.isNotEmpty) {
+      final message =
+          MessageSimple(message: textController.text, idSender: _user.id!);
 
-      if(sucesso){
+      final sucesso =
+          await _postMessageUseCase(message: message, idChat: chat.id);
+
+      if (sucesso) {
         messages.add(message);
         textController.clear();
         _messagesStream.sink.add(messages);
@@ -97,21 +95,23 @@ class MessageChatBloc{
             ));
   }
 
-  void swapSticker() async {
+  void swapSticker({MessageSwapStickers? messageSwap}) async {
     await showModalBottomSheet<dynamic>(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12.0),
                 topRight: Radius.circular(12.0))),
-        backgroundColor: Color(0xC7CACBD6),
+        backgroundColor: const Color(0xC7CACBD6),
+        isScrollControlled: true,
         context: Modular.routerDelegate.navigatorKey.currentContext!,
-        builder: (_) => CreateSwapModule());
+        builder: (_) => CreateSwapModule(chat: chat, messageSwap: messageSwap));
   }
 
-  Future<void> updateMarkLocation(MessagePlace message) async{
-    final sucesso = await _postMessageUseCase(message: message, idChat: idChat);
+  Future<void> updateMarkLocation(MessagePlace message) async {
+    final sucesso =
+        await _postMessageUseCase(message: message, idChat: chat.id);
 
-    if(sucesso){
+    if (sucesso) {
       messages.add(message);
       _messagesStream.add(messages);
     }

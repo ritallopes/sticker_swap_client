@@ -1,131 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:sticker_swap_client/src/core/components/app_bar_bottom_sheet.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sticker_swap_client/src/modules/chat/domain/entities/chat.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_suggestion/create_swap_suggestion_module.dart';
+import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_type/create_swap_type_module.dart';
+import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
+
+import '../../../core/components/app_bar_bottom_sheet.dart';
+import 'create_swap_album/create_swap_album_module.dart';
+import 'create_swap_bloc.dart';
 
 class CreateSwapScreen extends StatefulWidget {
+  final Chat? chat;
+  final MessageSwapStickers? messageSwap;
+  const CreateSwapScreen({super.key, this.chat, this.messageSwap});
+
   @override
-  _CreateSwapScreenState createState() => _CreateSwapScreenState();
+  State<CreateSwapScreen> createState() => _CreateSwapScreenState();
 }
 
 class _CreateSwapScreenState extends State<CreateSwapScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+  CreateSwapBloc controller = Modular.get<CreateSwapBloc>();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        AppBarBottomSheet("Proposta de troca", context),
-        Container(
-          width: 400,
-          padding: EdgeInsets.fromLTRB(15, 15, 0, 15),
-          margin: EdgeInsets.only(left: 30, right: 30),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/images/info_icon.png',
-                height: 25,
-              ),
-              const SizedBox(
-                width: 25,
-              ),
-              const Text(
-                "Selecione as figurinhas que deseja trocar",
-                style: TextStyle(
-                  color: Color.fromRGBO(70, 98, 235, 1),
-                  fontSize: 16,
-                ),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-          child: Text(
-            "Figurinhas de ...",
-            style: theme.textTheme.headlineSmall,
-          ),
-        ),
-        const Placeholder(
-          fallbackHeight: 200,
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-          child: Text(
-            "Figurinhas de ...",
-            style: theme.textTheme.headlineSmall,
-          ),
-        ),
-        const Placeholder(
-          fallbackHeight: 200,
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 100),
-              backgroundColor: const Color.fromRGBO(154, 16, 50, 1),
-              side: const BorderSide(color: Color(0xff9A1032)),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)),
-            ),
-            child: const Text("Confirmar",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                )),
-          ),
-        )
-      ],
-    );
+  @override
+  void initState() {
+    controller.getReferenceSwap(chat: widget.chat, swap: widget.messageSwap);
+    super.initState();
   }
-}
-
-class CardButton extends StatefulWidget {
-  CardButton({super.key, required this.name});
-
-  final String name;
-  bool selected = false;
 
   @override
-  State<CardButton> createState() => _CardButtonState();
-}
-
-class _CardButtonState extends State<CardButton> {
-  Color _colorButton = Colors.transparent;
-  Color _colorText = Colors.black;
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: ListTile(
-      leading: TextButton(
-          style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)),
-              side: BorderSide(color: Colors.black),
-              backgroundColor: _colorButton),
-          onPressed: () {
-            setState(() {
-              widget.selected = !widget.selected;
-              if (widget.selected == false) {
-                _colorButton = Colors.transparent;
-                _colorText = Colors.black;
-              } else {
-                _colorButton = Color.fromRGBO(154, 16, 50, 1);
-                _colorText = Colors.white;
-              }
-            });
-          },
-          child: Text(
-            widget.name,
-            style: TextStyle(color: _colorText),
-          )),
-    ));
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height -
+            MediaQueryData.fromView(WidgetsBinding.instance.window).padding.top,
+      ),
+      child: SafeArea(
+        bottom: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppBarBottomSheet("Proposta de troca", context),
+            StreamBuilder<int>(
+                initialData: 0,
+                stream: controller.getIndexTela,
+                builder: (context, snapshot) {
+                  late Widget tela;
+                  if (snapshot.data == 0) {
+                    tela = const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.data == 1) {
+                    tela = CreateSwapType(
+                      nameOtherUser: controller.nameOtherUser,
+                      referenceSwap: controller.referenceSwap,
+                      proximaTela: controller.mudarTela,
+                    );
+                  } else if (snapshot.data == 2) {
+                    tela = CreateSwapAlbum(
+                      nameOtherUser: controller.nameOtherUser,
+                      referenceSwap: controller.referenceSwap,
+                      idChat: widget.chat!.id,
+                    );
+                  } else if (snapshot.data == 3) {
+                    tela = CreateSwapSuggestion(
+                      nameOtherUser: controller.nameOtherUser,
+                      referenceSwap: controller.referenceSwap,
+                      proximaTela: controller.mudarTela,
+                    );
+                  }
+
+                  return Expanded(
+                    child: tela,
+                  );
+                }),
+          ],
+        ),
+      ),
+    );
   }
 }
