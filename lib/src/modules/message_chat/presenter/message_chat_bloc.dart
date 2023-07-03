@@ -11,6 +11,8 @@ import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/mes
 import 'package:sticker_swap_client/src/modules/message_chat/domain/entities/message_swap_stickers.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/get_messages.dart';
 import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/post_message.dart';
+import 'package:sticker_swap_client/src/modules/message_chat/domain/usecases/update_message_status.dart';
+import 'package:sticker_swap_client/src/modules/sticker/domain/entities/sticker.dart';
 import 'package:sticker_swap_client/src/utils/const/status_message_confirm.dart';
 
 class MessageChatBloc {
@@ -18,6 +20,8 @@ class MessageChatBloc {
   final User _user = Modular.get<User>();
   final IGetMessages _getMessagesUseCase = Modular.get<IGetMessages>();
   final IPostMessage _postMessageUseCase = Modular.get<IPostMessage>();
+  final _updateMessageStatusUseCase = Modular.get<IUpdateMessageStatus>();
+
 
   late List<Message> messages;
   TextEditingController textController = TextEditingController();
@@ -34,24 +38,26 @@ class MessageChatBloc {
   bool isMyMessage(Message message) => message.idSender == _user.id;
 
   void availableLocalization(
-      {required MessagePlace messagePlace, required int newStatus}) {
+      {required MessagePlace messagePlace, required int newStatus}) async{
     if (messagePlace.status == StatusMessageConfirm.wait) {
       messagePlace.status = newStatus;
+      await _updateMessageStatusUseCase(
+          message: messagePlace,
+          newStatus: newStatus,
+          idChat: chat.id);
       _messagesStream.sink.add(messages);
     }
   }
 
   void availableSwap(
-      {required MessageSwapStickers message, required int newStatus}) async {
+      {required MessageSwapStickers message, required int newStatus}) async{
     if (message.status == StatusMessageConfirm.wait) {
       message.status = newStatus;
-
-      final sucesso =
-          await _postMessageUseCase(message: message, idChat: chat.id);
-
-      if (sucesso) {
-        _messagesStream.sink.add(messages);
-      }
+      await _updateMessageStatusUseCase(
+          message: message,
+          newStatus: newStatus,
+          idChat: chat.id);
+      _messagesStream.sink.add(messages);
     }
   }
 
@@ -77,10 +83,11 @@ class MessageChatBloc {
 
   void markLocation() async {
     await showModalBottomSheet<dynamic>(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(
+            topLeft:  Radius.circular(12.0),
+            topRight:  Radius.circular(12.0)
+        )),
+        isScrollControlled: true,
         backgroundColor: const Color(0xC7CACBD6),
         context: Modular.routerDelegate.navigatorKey.currentContext!,
         builder: (_) => MarkLocationModule(
