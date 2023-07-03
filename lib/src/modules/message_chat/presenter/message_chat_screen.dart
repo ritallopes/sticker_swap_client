@@ -121,7 +121,7 @@ class _MessageChatScreenState extends ModularState<MessageChatScreen, MessageCha
               ),
               const Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: Text("Visto por último 11 minutos atrás",
+                child: Text("Acessou recentemente",
                     style: TextStyle(
                         fontSize: 12, color: Color.fromRGBO(117, 122, 163, 1))),
               ),
