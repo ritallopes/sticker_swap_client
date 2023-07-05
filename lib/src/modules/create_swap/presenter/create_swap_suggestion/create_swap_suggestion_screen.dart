@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/domain/entities/suggestion_swap_type.dart';
-import 'package:sticker_swap_client/src/modules/create_swap/presenter/create_swap_suggestion/create_swap_suggestion_module.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/widgets/button_create_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/widgets/input_create_swap.dart';
 import 'package:sticker_swap_client/src/modules/create_swap/presenter/widgets/radio_create_swap.dart';
@@ -22,6 +20,7 @@ class _CreateSwapSuggestionScreenState extends State<CreateSwapSuggestionScreen>
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
           margin: const EdgeInsets.only(left: 32, right: 32, top: 64),
@@ -82,24 +81,24 @@ class _CreateSwapSuggestionScreenState extends State<CreateSwapSuggestionScreen>
           ],
         )),
         Padding(
-            padding: EdgeInsets.only(left: 32, right: 32, top: 32),
+            padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InputCreateSwap(
                     controller: controller.maxTradedStickers,
-                    text: "Número de figurinhas máximo que deseja receber"
+                    text: "Número de figurinhas máximo que deseja trocar",
                 ),
                 const SizedBox(height: 16,),
                 InputCreateSwap(
                     controller: controller.maxReceivedStickers,
-                    text: "Número de figurinhas máximo que deseja receber"
+                    text: "Número de figurinhas máximo que deseja receber",
                 ),
               ],
             ),
         ),
         Padding(
-            padding: const EdgeInsets.only(left: 32, right: 32, top: 64),
+            padding: const EdgeInsets.only(left: 32, right: 32, top: 64, bottom: 32),
             child: ButtonCreateSwap(
               onPressed: controller.generateSuggestion,
               text: "Obter sugestão de troca"

@@ -16,7 +16,6 @@ class CreateSwapTypeBloc {
   }
 
   Future<void> orgSuggestionSwap() async {
-    ///TODO: Adicionar logica para sugestão de troca
     proximaTela(3);
   }
 

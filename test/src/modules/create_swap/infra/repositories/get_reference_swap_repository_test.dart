@@ -7,8 +7,8 @@ import 'package:sticker_swap_client/src/modules/create_swap/infra/datasources/in
 import 'package:sticker_swap_client/src/modules/create_swap/infra/repositories/get_reference_swap_repository.dart';
 
 import 'get_reference_swap_repository_test.mocks.dart';
-import 'util/filter_album.dart';
-import 'util/generate_base_album.dart';
+import '../../util/filter_album.dart';
+import '../../util/generate_base_album.dart';
 
 @GenerateNiceMocks([MockSpec<IGetReferenceSwapDatasource>()])
 void main() {
