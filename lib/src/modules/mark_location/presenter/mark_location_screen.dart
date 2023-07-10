@@ -13,12 +13,6 @@ class MarkLocationScreen extends StatefulWidget {
 class _MarkLocationScreenState extends ModularState<MarkLocationScreen, MarkLocationBloc> {
 
   @override
-  void initState() {
-    super.initState();
-    controller.initState();
-  }
-
-  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -34,6 +28,7 @@ class _MarkLocationScreenState extends ModularState<MarkLocationScreen, MarkLoca
       child: SafeArea(
         bottom: true,
         child: Form(
+          key: controller.localFormKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -83,7 +78,7 @@ class _MarkLocationScreenState extends ModularState<MarkLocationScreen, MarkLoca
                           )],
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
-                              return 'O horário deve ser informada.';
+                              return 'O horário deve ser informado.';
                             }
                             return null;
                           },
