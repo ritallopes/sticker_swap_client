@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/subjects.dart';
@@ -22,6 +24,8 @@ class MessageChatBloc {
   final IPostMessage _postMessageUseCase = Modular.get<IPostMessage>();
   final _updateMessageStatusUseCase = Modular.get<IUpdateMessageStatus>();
 
+  ScrollController listScrollController = ScrollController();
+
 
   late List<Message> messages;
   TextEditingController textController = TextEditingController();
@@ -32,7 +36,7 @@ class MessageChatBloc {
   void getMessages(Chat chat) async {
     this.chat = chat;
     messages = await _getMessagesUseCase(idChat: chat.id, lastID: "");
-    _messagesStream.sink.add(messages);
+    updateStreamMessage();
   }
 
   bool isMyMessage(Message message) => message.idSender == _user.id;
@@ -46,7 +50,7 @@ class MessageChatBloc {
           message: messagePlace,
           newStatus: newStatus,
           idChat: chat.id);
-      _messagesStream.sink.add(messages);
+      updateStreamMessage();
     }
   }
 
@@ -58,7 +62,7 @@ class MessageChatBloc {
           message: message,
           newStatus: newStatus,
           idChat: chat.id);
-      _messagesStream.sink.add(messages);
+      updateStreamMessage();
     }
   }
 
@@ -81,7 +85,7 @@ class MessageChatBloc {
       if (sucesso) {
         messages.add(message);
         textController.clear();
-        _messagesStream.sink.add(messages);
+        updateStreamMessage();
       }
     }
   }
@@ -128,6 +132,16 @@ class MessageChatBloc {
     }
   }
 
+  void updateStreamMessage(){
+    _messagesStream.sink.add(messages);
+    Timer(const Duration(milliseconds: 100), (){
+      if (listScrollController.hasClients) {
+        final position = listScrollController.position.maxScrollExtent;
+        listScrollController.jumpTo(position);
+      }
+    });
+  }
+  
   Future<void> _sendRefereceSwap(ReferenceSwap referenceSwap) async {
     final message = MessageSwapStickers(
       idSender: _user.id!,

@@ -52,6 +52,7 @@ class _MessageChatScreenState extends ModularState<MessageChatScreen, MessageCha
 
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
+                      controller: controller.listScrollController,
                       itemBuilder: (_, index) {
                         if(snapshot.data![index] is MessageSimple) {
                           return MessageTile(
