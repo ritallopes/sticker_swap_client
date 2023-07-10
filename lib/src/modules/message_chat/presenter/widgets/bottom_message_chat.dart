@@ -89,6 +89,7 @@ class BottomMessageChat extends StatelessWidget {
                   ),
                 ),
 
+                /*
                 TextButton(
                   onPressed: (){},
                     style: TextButton.styleFrom(
@@ -101,6 +102,7 @@ class BottomMessageChat extends StatelessWidget {
                       style: TextStyle(fontSize: 14, color: Colors.black)
                   ),
                 )
+                 */
               ],
             ),
           )

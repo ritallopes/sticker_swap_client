@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InputMarkLocation extends StatelessWidget {
 
   final String hintText;
   final TextInputType inputType;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+
   InputMarkLocation({
     required this.hintText,
     required this.inputType,
-    required this.controller
+    required this.controller,
+    this.validator,
+    this.inputFormatters,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       keyboardType: inputType,
       decoration: InputDecoration(
@@ -30,6 +36,8 @@ class InputMarkLocation extends StatelessWidget {
         hintText: hintText,
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
       ),
+      inputFormatters: inputFormatters,
+      validator: validator,
     );
   }
 }

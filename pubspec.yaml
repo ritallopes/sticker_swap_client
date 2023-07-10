@@ -25,6 +25,7 @@ dependencies:
   qr_flutter: ^4.1.0
   flutter_speed_dial: ^6.2.0
   flutter_barcode_scanner: ^2.0.0
+  mask_text_input_formatter: ^2.4.0
 
   rxdart:
   dio: ^4.0.6
